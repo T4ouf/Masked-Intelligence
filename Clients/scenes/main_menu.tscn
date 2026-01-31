@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://cr3vn1c45uyys"]
+
+[ext_resource type="Script" uid="uid://w43jn8v0k5r7" path="res://scripts/scene_load_button.gd" id="1_ekxnf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kiyvv"]
+font_color = Color(0.00011382803, 0.00011382803, 0.00011382803, 1)
+
+[node name="Control" type="Control" unique_id=991512591]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=90466127]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect" unique_id=1874807485]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/MarginContainer" unique_id=1348552366]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Title" type="Label" parent="ColorRect/MarginContainer/GridContainer" unique_id=1250337900]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Masked Intelligence"
+label_settings = SubResource("LabelSettings_kiyvv")
+
+[node name="CreateGameButton" type="Button" parent="ColorRect/MarginContainer/GridContainer" unique_id=672929110]
+layout_mode = 2
+text = "Create Game"
+script = ExtResource("1_ekxnf")
+targetPage = 1
+targetRole = 2
+
+[node name="JoinGameButton" type="Button" parent="ColorRect/MarginContainer/GridContainer" unique_id=417163898]
+layout_mode = 2
+text = "Join Game"
+script = ExtResource("1_ekxnf")
+targetPage = 2
+targetRole = 2

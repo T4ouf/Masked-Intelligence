@@ -1,0 +1,124 @@
+[gd_scene format=3 uid="uid://tkj22e8ll8xj"]
+
+[ext_resource type="Script" uid="uid://cgxn5wwdarxly" path="res://scripts/connection_page.gd" id="1_laq3n"]
+[ext_resource type="Script" uid="uid://w43jn8v0k5r7" path="res://scripts/scene_load_button.gd" id="1_xfla3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kiyvv"]
+font_color = Color(0.00011382803, 0.00011382803, 0.00011382803, 1)
+
+[node name="Control" type="Control" unique_id=482396246]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_laq3n")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=195993062]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect" unique_id=641234280]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer" unique_id=384617215]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=777694904]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Back"
+script = ExtResource("1_xfla3")
+targetRole = 2
+
+[node name="VBox" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=1310556309]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBox" unique_id=623116525]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Join a Game"
+label_settings = SubResource("LabelSettings_kiyvv")
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/MarginContainer/VBoxContainer/VBox" unique_id=825991304]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="IPLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=1032658745]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "IP Address"
+
+[node name="PortInput2" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=1997306390]
+layout_mode = 2
+text = "10.187.179.120"
+
+[node name="PortLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=67237636]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Port"
+
+[node name="PortInput" type="SpinBox" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=707871411]
+layout_mode = 2
+
+[node name="GameIDLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=225976933]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Game ID"
+
+[node name="GameIDInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=920899836]
+layout_mode = 2
+
+[node name="ConnectPlayerButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBox" unique_id=1215980466]
+layout_mode = 2
+text = "Connect as player"
+
+[node name="ConnectMasterButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBox" unique_id=646942510]
+layout_mode = 2
+text = "Connect as Game Master"
+
+[node name="ErrorPopup" type="Popup" parent="." unique_id=966983965]
+oversampling_override = 1.0
+
+[node name="Label" type="Label" parent="ErrorPopup" unique_id=102512569]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Connecting"
+
+[node name="CancelButton" type="Button" parent="ErrorPopup" unique_id=1548160262]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Cancel"
+
+[node name="LoadingPopup" type="Popup" parent="." unique_id=562456591]
+unique_name_in_owner = true
+oversampling_override = 1.0
+
+[node name="Label" type="Label" parent="LoadingPopup" unique_id=404254615]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Connecting"
+
+[node name="CancelButton" type="Button" parent="LoadingPopup" unique_id=293926132]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Cancel"
+
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/VBox/ConnectPlayerButton" to="." method="_on_connect_player_button_pressed"]
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/VBox/ConnectMasterButton" to="." method="_on_connect_master_button_pressed"]
