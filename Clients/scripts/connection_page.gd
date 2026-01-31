@@ -18,6 +18,7 @@ func _start_connection() -> void:
 	var port = $%PortInput.get_line_edit().text
 	var err = Global.socket.connect_to_url("ws://%s:%s" % [ip, port])
 	if err != Error.OK:
+		pass
 
 	$%LoadingPopup.popup()
 
