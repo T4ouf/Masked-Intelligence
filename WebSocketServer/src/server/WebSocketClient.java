@@ -102,11 +102,88 @@ public class WebSocketClient {
 		return res;
 	}
 	
+	private void readNBytesInputStream(int n, byte[] data, int offset) throws IOException {
+		for(int i=0; i<n; i++) {
+			data[i + offset] = (byte) in.read(); // we read one byte at the time => ensure for incomplete data
+		}
+	}
+	
 	public String readMessage() throws IOException {
 		String msg = "";
 		
 		byte[] byteData = new byte[BUFFERSIZE];
-		in.read(byteData);
+		
+		int readBytes = 0;
+		
+		int dataSize = 0; //how many bytes of data
+		int dataSizeSize = 0; // how many bytes to read the size of the data
+		boolean isMasked = true; // Defines whether the "Payload data" is masked or not
+		boolean maskGet = false;
+		byte[] key = new byte[4]; // storing the mask key if there is one
+		
+		// read datasize
+		readNBytesInputStream(2, byteData, 0);
+		readBytes += 2;
+		
+		int firstByte = byteData[0] & 0xff; // complement à 2 pour avoir l'entier non signe
+		if(firstByte != 129) {
+			System.err.println("Unsupported message type ! 1st Byte value should be 129. Byte value : " + firstByte);
+		}
+		
+		int secondByte = byteData[1] & 0xff; // complement à 2 pour avoir l'entier non signe
+		int diff = -1; // the 7 bytes following the mask bit
+		if(secondByte < 128) {
+			isMasked = false; // => mask bit is 0
+			diff = secondByte;
+		}
+		else {
+			isMasked = true; // => mask bit is 1
+			diff = secondByte - 128;
+		}
+	
+		if(diff <= 125) {
+			dataSizeSize = 1; // 1 byte for data size
+			dataSize = diff;
+			System.out.println(dataSize);
+		}
+		else if(diff == 126) {
+			dataSizeSize = 2; // 2 bytes for data size
+			
+			int byte3 = byteData[2] & 0xff; // complement à 2 pour avoir l'entier non signe	
+			int byte4 = byteData[3] & 0xff; // complement à 2 pour avoir l'entier non signe									
+			dataSize = (int) (byte3 << 8 | byte4); // concatenate the bytes to get the data size
+		}
+		else if(diff == 127) {
+			System.err.println("Unsupported data size ! (Data size is 8 bytes long)");
+//			dataSizeSize = 8; // 8 bytes for data size
+//			int byte3  = encoded[2] & 0xff; // complement à 2 pour avoir l'entier non signe	
+//			int byte4  = encoded[3] & 0xff; // complement à 2 pour avoir l'entier non signe
+//			int byte5  = encoded[4] & 0xff; // complement à 2 pour avoir l'entier non signe	
+//			int byte6  = encoded[5] & 0xff; // complement à 2 pour avoir l'entier non signe
+//			int byte7  = encoded[6] & 0xff; // complement à 2 pour avoir l'entier non signe	
+//			int byte8  = encoded[7] & 0xff; // complement à 2 pour avoir l'entier non signe
+//			int byte9  = encoded[8] & 0xff; // complement à 2 pour avoir l'entier non signe	
+//			int byte10 = encoded[9] & 0xff; // complement à 2 pour avoir l'entier non signe
+//			// concatenate the bytes to get the data size
+//			dataSize = (int) ((byte3 << 8 | byte4) << 8 | byte5); //TODO
+//			i = 9; // move to data bytes
+		}
+		else {
+			System.err.println("Invalid data size !");
+		}
+		
+		// if there is a mask and we haven't read it yet
+		if(isMasked && !maskGet) {
+			readNBytesInputStream(4, byteData, readBytes);
+			key[0] = (byte)byteData[readBytes];
+			key[1] = (byte)byteData[readBytes+1];
+			key[2] = (byte)byteData[readBytes+2];
+			key[3] = (byte)byteData[readBytes+3];
+			readBytes += 4;
+			maskGet = true; // we're done with the mask data
+		}
+		
+		readNBytesInputStream(dataSize, byteData, readBytes);
 		
 		System.out.println("-----\nBinary : ");
 		
@@ -114,87 +191,13 @@ public class WebSocketClient {
 			System.out.print((b& 0xff) + " ");
 		
 		System.out.println("\n-----");
+			
 		
-		int dataSize = 0; //how many bytes of data
-		int dataSizeSize = 0; // how many bytes to read the size of the data
-		boolean isMasked = true; // Defines whether the "Payload data" is masked or not
-		boolean maskGet = false;
-		byte[] key = new byte[4]; // storing the mask key if there is one
-			
-		int i=0;
-		for(i=0; i<BUFFERSIZE; i++) {
-			// data frame type
-			if(i==0) {
-				int firstByte = byteData[0] & 0xff; // complement à 2 pour avoir l'entier non signe
-				if(firstByte != 129) {
-					System.err.println("Unsupported message type ! 1st Byte value should be 129. Byte value : " + firstByte);
-					break;
-				}
-			}
-			// mask bit and payload length
-			else if(i==1) {
-				int secondByte = byteData[1] & 0xff; // complement à 2 pour avoir l'entier non signe
-				int diff = -1; // the 7 bytes following the mask bit
-				if(secondByte < 128) {
-					isMasked = false; // => mask bit is 0
-					diff = secondByte;
-				}
-				else {
-					isMasked = true; // => mask bit is 1
-					diff = secondByte - 128;
-				}
-			
-				if(diff <= 125) {
-					dataSizeSize = 1; // 1 byte for data size
-					dataSize = diff;
-				}
-				else if(diff == 126) {
-					dataSizeSize = 2; // 2 bytes for data size
-					int byte3 = byteData[2] & 0xff; // complement à 2 pour avoir l'entier non signe	
-					int byte4 = byteData[3] & 0xff; // complement à 2 pour avoir l'entier non signe									
-					dataSize = (int) (byte3 << 8 | byte4); // concatenate the bytes to get the data size
-					i = i + 2; // move to data bytes
-				}
-				else if(diff == 127) {
-					System.err.println("Unsupported data size ! (Data size is 8 bytes long)");
-					break;
-//					dataSizeSize = 8; // 8 bytes for data size
-//					int byte3  = encoded[2] & 0xff; // complement à 2 pour avoir l'entier non signe	
-//					int byte4  = encoded[3] & 0xff; // complement à 2 pour avoir l'entier non signe
-//					int byte5  = encoded[4] & 0xff; // complement à 2 pour avoir l'entier non signe	
-//					int byte6  = encoded[5] & 0xff; // complement à 2 pour avoir l'entier non signe
-//					int byte7  = encoded[6] & 0xff; // complement à 2 pour avoir l'entier non signe	
-//					int byte8  = encoded[7] & 0xff; // complement à 2 pour avoir l'entier non signe
-//					int byte9  = encoded[8] & 0xff; // complement à 2 pour avoir l'entier non signe	
-//					int byte10 = encoded[9] & 0xff; // complement à 2 pour avoir l'entier non signe
-//					// concatenate the bytes to get the data size
-//					dataSize = (int) ((byte3 << 8 | byte4) << 8 | byte5); //TODO
-//					i = 9; // move to data bytes
-				}
-				else {
-					System.err.println("Invalid data size !");
-					break;
-				}
-				
-			}
-			else {
-				// if there is a mask and we haven't read it yet
-				if(isMasked && !maskGet) {
-					key[0] = (byte)byteData[i];
-					key[1] = (byte)byteData[i+1];
-					key[2] = (byte)byteData[i+2];
-					key[3] = (byte)byteData[i+3];
-					i=i+4;
-					maskGet = true; // we're done with the mask data
-				}
-				
-				break;
-			}
-			
-		}
+		assert(readBytes == (1+dataSizeSize+(isMasked?4:0))); // sanity check
+		
 		byte[] decoded = new byte[BUFFERSIZE];
 		for (int j = 0; j < dataSize; j++) {
-			decoded[j] = (byte) (byteData[i+j] ^ key[j & 0x3]);
+			decoded[j] = (byte) (byteData[readBytes+j] ^ key[j & 0x3]);
 		}
 		msg = new String(decoded);
 		
