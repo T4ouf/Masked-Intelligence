@@ -1,14 +1,14 @@
 extends Control
 
+const font_size_default : int = 16 ## in px
 const message: PackedScene = preload("res://scenes/message.tscn")
 @export var current_account: Account
 @onready var inpt_text_edit = $MarginContainer/HBoxContainer/Chat/MsgEntry/TextEdit
 @onready var chatbox = $MarginContainer/HBoxContainer/Chat/ChatScroller/ChatBox
-@export var font_size: float = 16.0:
+@export var font_scale: float = 1.0:
 	set(value):
 		if value != 0:
-			self.theme.default_font_size = int(value)
-			#$MarginContainer.scale = Vector2(value, value)
+			self.theme.default_font_size = int(font_size_default * value)
 @export var message_limit: int = 3000
 
 ## Chat scroller
@@ -59,5 +59,5 @@ func _on_button_pressed() -> void:
 	send_message(current_account, new_text)
 
 
-func _on_font_size_value_changed(value: float) -> void:
-	font_size = value
+func _on_font_scale_value_changed(value: float) -> void:
+	font_scale = value

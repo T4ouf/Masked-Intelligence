@@ -9,9 +9,30 @@ default_font_size = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6wiki"]
 bg_color = Color(0.29054812, 0.4101891, 0.34571213, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.042072475, 0.12062628, 0.036591277, 1)
+border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8i8ot"]
 bg_color = Color(0.11582477, 0.4553057, 0.4575454, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.218061, 0.21806106, 0.21806082, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4p48b"]
+bg_color = Color(0.44136545, 0.44136554, 0.44136536, 0)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+border_blend = true
 
 [node name="Control" type="Control" unique_id=948171427]
 layout_mode = 3
@@ -39,6 +60,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=70829691]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6wiki")
 
@@ -51,25 +73,28 @@ size_flags_vertical = 0
 layout_direction = 2
 layout_mode = 2
 
-[node name="FontSizeLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=214865725]
+[node name="FontScaleLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=214865725]
 layout_mode = 2
-text = "Font size: "
+text = "Font scale: "
 
-[node name="FontSize" type="SpinBox" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1474390838]
+[node name="FontScale" type="SpinBox" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1474390838]
 layout_mode = 2
-min_value = 8.0
-max_value = 40.0
-value = 18.0
+min_value = 0.5
+max_value = 3.0
+step = 0.1
+value = 1.0
 
 [node name="Chat" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=702941862]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
 [node name="ChatScroller" type="ScrollContainer" parent="MarginContainer/HBoxContainer/Chat" unique_id=396590605]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_8i8ot")
 follow_focus = true
+horizontal_scroll_mode = 0
 
 [node name="ChatBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Chat/ChatScroller" unique_id=1580663306]
 layout_mode = 2
@@ -81,16 +106,18 @@ layout_mode = 2
 [node name="MsgEntry" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Chat" unique_id=1918737825]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_constants/separation = 0
 
 [node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/Chat/MsgEntry" unique_id=362965322]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_4p48b")
 placeholder_text = "Enter your message..."
 
 [node name="Button" type="Button" parent="MarginContainer/HBoxContainer/Chat/MsgEntry" unique_id=888553850]
 layout_mode = 2
 text = "Send"
 
-[connection signal="value_changed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/FontSize" to="." method="_on_font_size_value_changed"]
+[connection signal="value_changed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/FontScale" to="." method="_on_font_scale_value_changed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Chat/MsgEntry/Button" to="." method="_on_button_pressed"]

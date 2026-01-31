@@ -1,25 +1,29 @@
-extends HBoxContainer
+extends MarginContainer
 class_name Message
 
 const my_scene: PackedScene = preload("res://scenes/message.tscn")
 
 ## Set the label texts in the message.
 func set_data(account: Account, msg_text: String):
-	$TextureRect.texture = account.account_image
-	$%Account.text = account.username + ": "
-	$%Message.text = msg_text
+	$%AccIcon.texture = account.account_image
+	$%AccountLabel.text = account.username + ": "
+	$%MessageLabel.text = msg_text
 
 ## Display the message to the left	
 func move_left():
-	move_child($TextureRect, 0)
-	move_child($VBoxContainer, 1)
-	alignment = BoxContainer.ALIGNMENT_BEGIN
-	$%Account.horizontal_alignment = 0
+	$%HBoxContainer.move_child($%AccIcon, 0)
+	$%HBoxContainer.move_child($%VBoxContainer, 1)
+	$%HBoxContainer.alignment = BoxContainer.ALIGNMENT_BEGIN
+	$%AccountBackground.size_flags_horizontal = SIZE_SHRINK_BEGIN
+	add_theme_constant_override("margin_left", 10)
+	add_theme_constant_override("margin_right", 150)
 
 ## Display the message to the right	
 func move_right():
-	move_child($TextureRect, 2)
-	move_child($VBoxContainer, 0)
-	alignment = BoxContainer.ALIGNMENT_END
-	$%Account.horizontal_alignment = 2
+	$%HBoxContainer.move_child($%AccIcon, 2)
+	$%HBoxContainer.move_child($%VBoxContainer, 0)
+	$%HBoxContainer.alignment = BoxContainer.ALIGNMENT_END
+	$%AccountBackground.size_flags_horizontal = SIZE_SHRINK_END
+	add_theme_constant_override("margin_left", 150)
+	add_theme_constant_override("margin_right", 10)
 	
