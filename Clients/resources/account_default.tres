@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Account" format=3 uid="uid://cbwv2aca6mlyk"]
+
+[ext_resource type="Texture2D" uid="uid://teh4ytkiiidh" path="res://assets/user_icon_default.svg" id="1_sigbk"]
+[ext_resource type="Script" uid="uid://bcs6njo4fbfmh" path="res://resources/account.gd" id="2_7sql1"]
+
+[resource]
+script = ExtResource("2_7sql1")
+account_image = ExtResource("1_sigbk")
+username = "Username"
+description = "Some dude"

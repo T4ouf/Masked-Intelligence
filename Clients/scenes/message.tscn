@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://cypn2o603pvut"]
+
+[ext_resource type="Script" uid="uid://ckjiv722ybytc" path="res://scripts/message_data.gd" id="1_x5w8s"]
+[ext_resource type="Texture2D" uid="uid://cla4vwmcujkvw" path="res://icon.svg" id="2_06ydw"]
+
+[node name="HBoxContainer" type="HBoxContainer" unique_id=1054771256]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+script = ExtResource("1_x5w8s")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1851414994]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_06ydw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=87601783]
+layout_mode = 2
+
+[node name="AccountBackground" type="PanelContainer" parent="VBoxContainer" unique_id=1475654596]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Account" type="Label" parent="VBoxContainer/AccountBackground" unique_id=983742494]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Username: "
+vertical_alignment = 1
+
+[node name="MessageBackground" type="PanelContainer" parent="VBoxContainer" unique_id=2109940631]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="Message" type="Label" parent="VBoxContainer/MessageBackground" unique_id=16419246]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hello world"
+vertical_alignment = 1

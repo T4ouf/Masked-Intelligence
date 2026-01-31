@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://8q8b4myxr24s"]
+
+[ext_resource type="Script" uid="uid://wgiryvwdvmdx" path="res://scripts/main_chat.gd" id="1_xnacm"]
+[ext_resource type="PackedScene" uid="uid://cypn2o603pvut" path="res://scenes/message.tscn" id="2_4p48b"]
+[ext_resource type="Resource" uid="uid://cbwv2aca6mlyk" path="res://resources/account_default.tres" id="2_eyfdf"]
+
+[sub_resource type="Theme" id="Theme_8i8ot"]
+default_font_size = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6wiki"]
+bg_color = Color(0.29054812, 0.4101891, 0.34571213, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8i8ot"]
+bg_color = Color(0.11582477, 0.4553057, 0.4575454, 1)
+
+[node name="Control" type="Control" unique_id=948171427]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_8i8ot")
+script = ExtResource("1_xnacm")
+current_account = ExtResource("2_eyfdf")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1588786551]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1144489323]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=70829691]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6wiki")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=2146848493]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer" unique_id=1031606630]
+layout_direction = 2
+layout_mode = 2
+
+[node name="FontSizeLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=214865725]
+layout_mode = 2
+text = "Font size: "
+
+[node name="FontSize" type="SpinBox" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1474390838]
+layout_mode = 2
+min_value = 8.0
+max_value = 40.0
+value = 18.0
+
+[node name="Chat" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=702941862]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChatScroller" type="ScrollContainer" parent="MarginContainer/HBoxContainer/Chat" unique_id=396590605]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8i8ot")
+follow_focus = true
+
+[node name="ChatBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Chat/ChatScroller" unique_id=1580663306]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" parent="MarginContainer/HBoxContainer/Chat/ChatScroller/ChatBox" unique_id=1054771256 instance=ExtResource("2_4p48b")]
+layout_mode = 2
+
+[node name="MsgEntry" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Chat" unique_id=1918737825]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/Chat/MsgEntry" unique_id=362965322]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter your message..."
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/Chat/MsgEntry" unique_id=888553850]
+layout_mode = 2
+text = "Send"
+
+[connection signal="value_changed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/FontSize" to="." method="_on_font_size_value_changed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Chat/MsgEntry/Button" to="." method="_on_button_pressed"]
