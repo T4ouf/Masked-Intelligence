@@ -16,9 +16,11 @@ func _process(_delta: float) -> void:
 func _start_connection() -> void:
 	var ip = $%IPInput.text
 	var port = $%PortInput.get_line_edit().text
+	var _game_id = $%GameIDInput.text
 	var err = Global.socket.connect_to_url("ws://%s:%s" % [ip, port])
 	if err != Error.OK:
-		pass
+		show_error(err)
+		return
 
 	$%LoadingPopup.popup()
 
@@ -48,3 +50,7 @@ func _on_connect_player_button_pressed() -> void:
 func _on_connect_master_button_pressed() -> void:
 	Global.role = Global.PlayerRole.MASTER
 	_start_connection()
+
+
+func _on_error_popup_close_button_pressed() -> void:
+	$%ErrorPopup.hide()

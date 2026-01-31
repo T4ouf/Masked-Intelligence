@@ -65,7 +65,8 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "IP Address"
 
-[node name="PortInput2" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=1997306390]
+[node name="IPInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=1997306390]
+unique_name_in_owner = true
 layout_mode = 2
 text = "10.187.179.120"
 
@@ -75,7 +76,10 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Port"
 
 [node name="PortInput" type="SpinBox" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=707871411]
+unique_name_in_owner = true
 layout_mode = 2
+max_value = 65536.0
+rounded = true
 
 [node name="GameIDLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=225976933]
 layout_mode = 2
@@ -83,6 +87,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Game ID"
 
 [node name="GameIDInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer/VBox/GridContainer" unique_id=920899836]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ConnectPlayerButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBox" unique_id=1215980466]
@@ -94,6 +99,7 @@ layout_mode = 2
 text = "Connect as Game Master"
 
 [node name="ErrorPopup" type="Popup" parent="." unique_id=966983965]
+unique_name_in_owner = true
 oversampling_override = 1.0
 
 [node name="Label" type="Label" parent="ErrorPopup" unique_id=102512569]
@@ -101,10 +107,10 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "Connecting"
 
-[node name="CancelButton" type="Button" parent="ErrorPopup" unique_id=1548160262]
+[node name="CloseButton" type="Button" parent="ErrorPopup" unique_id=1548160262]
 offset_right = 8.0
 offset_bottom = 8.0
-text = "Cancel"
+text = "Close"
 
 [node name="LoadingPopup" type="Popup" parent="." unique_id=562456591]
 unique_name_in_owner = true
@@ -122,3 +128,4 @@ text = "Cancel"
 
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/VBox/ConnectPlayerButton" to="." method="_on_connect_player_button_pressed"]
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/VBox/ConnectMasterButton" to="." method="_on_connect_master_button_pressed"]
+[connection signal="pressed" from="ErrorPopup/CloseButton" to="." method="_on_error_popup_close_button_pressed"]
