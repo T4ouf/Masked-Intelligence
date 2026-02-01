@@ -35,6 +35,7 @@ theme_override_constants/margin_bottom = 50
 
 [node name="GridContainer" type="GridContainer" parent="ColorRect/MarginContainer" unique_id=1348552366]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/GridContainer" unique_id=1250337900]
@@ -48,11 +49,10 @@ layout_mode = 2
 text = "Create Game"
 script = ExtResource("1_ekxnf")
 targetPage = 1
-targetRole = 2
+targetRole = 1
 
 [node name="JoinGameButton" type="Button" parent="ColorRect/MarginContainer/GridContainer" unique_id=417163898]
 layout_mode = 2
 text = "Join Game"
 script = ExtResource("1_ekxnf")
 targetPage = 2
-targetRole = 2

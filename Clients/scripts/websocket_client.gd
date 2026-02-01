@@ -26,9 +26,7 @@ func connect_to_url(url: String) -> int:
 
 func send(message: String) -> int:
 	if typeof(message) == TYPE_STRING:
-		print("Sending text")
 		return socket.send_text(message)
-	print("Sending binary data")
 	return socket.send(var_to_bytes(message))
 
 
@@ -70,6 +68,26 @@ func poll() -> void:
 	while socket.get_ready_state() == socket.STATE_OPEN and socket.get_available_packet_count():
 		message_received.emit(get_message())
 
+func connect_signals(on_connection, on_disconnection, on_message) -> void:
+	if on_connection != null and !connected_to_server.is_connected(on_connection):
+		connected_to_server.connect(on_connection)
+
+	if on_disconnection != null and !connection_closed.is_connected(on_disconnection):
+		connection_closed.connect(on_disconnection)
+
+	if on_message != null and !message_received.is_connected(on_message):
+		message_received.connect(on_message)
+
+func disconnect_signals() -> void:
+	# We assume that only one scene has functions connected to this class signals at any given time
+	for connection in connected_to_server.get_connections():
+		connected_to_server.disconnect(connection.callable)
+
+	for connection in connection_closed.get_connections():
+		connection_closed.disconnect(connection.callable)
+
+	for connection in message_received.get_connections():
+		message_received.disconnect(connection.callable)
 
 func _process(_delta: float) -> void:
 	poll()

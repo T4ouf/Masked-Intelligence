@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://dnqeueseg7ts5"]
+
+[ext_resource type="Script" uid="uid://o6pidxq3f64n" path="res://scripts/create_game.gd" id="1_b3lh1"]
+[ext_resource type="Script" uid="uid://w43jn8v0k5r7" path="res://scripts/scene_load_button.gd" id="1_cqxoa"]
+[ext_resource type="PackedScene" uid="uid://ckyuj17bjs01d" path="res://scenes/error_popup.tscn" id="3_l33at"]
+
+[node name="Control" type="Control" unique_id=1015258964]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b3lh1")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1756689290]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect" unique_id=1478044331]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer" unique_id=1141390342]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=1639609764]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Back"
+script = ExtResource("1_cqxoa")
+targetRole = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=964758581]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1644711931]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Create Game"
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1676422082]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=2065878706]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Number of guessers"
+
+[node name="GuessersInput" type="SpinBox" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=362892334]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+rounded = true
+
+[node name="Label2" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=259081089]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Number of imposters"
+
+[node name="ImpostersInput" type="SpinBox" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=999388576]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+rounded = true
+
+[node name="Label3" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=1072162930]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Number of AIs"
+
+[node name="AIsInput" type="SpinBox" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=714489232]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+rounded = true
+
+[node name="Label4" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=138587724]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Duration of the guesser' turn"
+
+[node name="GuessersDurationInput" type="SpinBox" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=718446605]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 2.0
+value = 2.0
+suffix = "min"
+
+[node name="Label5" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=1061140338]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Duration of the imposters' turn"
+
+[node name="ImpostersDurationInput" type="SpinBox" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=1140715636]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 2.0
+value = 2.0
+suffix = "min"
+
+[node name="Label6" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=797319554]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "IP address"
+
+[node name="IPInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=26491743]
+unique_name_in_owner = true
+layout_mode = 2
+text = "localhost"
+
+[node name="Label7" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=522843268]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Port"
+
+[node name="PortInput" type="SpinBox" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/GridContainer" unique_id=2000340642]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 65536.0
+value = 9000.0
+rounded = true
+
+[node name="Button" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer" unique_id=2057837596]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Create Game"
+
+[node name="ErrorPopup" parent="." unique_id=35869718 instance=ExtResource("3_l33at")]
+visible = false
+
+[node name="LoadingPopup" type="Popup" parent="." unique_id=1582915326]
+unique_name_in_owner = true
+
+[node name="VBox" type="VBoxContainer" parent="LoadingPopup" unique_id=545016501]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="LoadingPopup/VBox" unique_id=1254542098]
+layout_mode = 2
+text = "Connecting to server ..."
+
+[node name="Button" type="Button" parent="LoadingPopup/VBox" unique_id=1535517744]
+layout_mode = 2
+text = "Cancel"
+
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/Button" to="." method="_start_connection"]
