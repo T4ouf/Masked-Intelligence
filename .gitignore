@@ -54,6 +54,9 @@ local.properties
 .loadpath
 .recommenders
 
+# Vim session files
+*.vim
+
 # External tool builders
 .externalToolBuilders/
 
