@@ -28,7 +28,7 @@ public class WebSocketServer {
 		
 		// Thread listening to clients logging in
 		Thread clientReceptionThread = new Thread() {
-			public void run() {
+			public synchronized void run() {
 				ServerSocket server = null;
 				try {
 					server = new ServerSocket(PORT); // Open a web socket server 
@@ -63,12 +63,20 @@ public class WebSocketServer {
 		
 		// Thread listening to clients' messages
 		Thread messageReceptionThread = new Thread() {
-			public void run() {
+			public synchronized void run() {
 				try {
 					while(true) {
 						if(clients.size() > 0) {
-							for(WebSocketClient client : clients) {
-								if(client.hasDataIn()) {
+							for(int i=0; i<clients.size();i++) {
+								
+								WebSocketClient client = clients.get(i);
+								
+								// if the client disconnected => remove it from the clients
+								if(!client.isConnected()) {
+									clients.remove(i);
+									i = i - 1; // to not skip a client in the listening
+								}
+								else if(client.hasDataIn()) {
 									String msg = client.readMessage();
 									System.out.println("Client#"+client.id+" : " + msg);
 								}

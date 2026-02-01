@@ -11,17 +11,18 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import game.PlayerType;
+
 public class WebSocketClient {
 	private static int BUFFERSIZE = 1024;
 	
 	private static int IDGENERATOR = 0;
 	public int id;
 	
-	public ClientType clientType;
+	public PlayerType clientType;
 	
 	private ServerSocket server;
 	private Socket client;
-
 	
 	private InputStream in = null;
 	private OutputStream out = null;
@@ -144,14 +145,22 @@ public class WebSocketClient {
 		if(diff <= 125) {
 			dataSizeSize = 1; // 1 byte for data size
 			dataSize = diff;
-			System.out.println(dataSize);
+			System.out.println("One Byte datasize : " + dataSize);
 		}
 		else if(diff == 126) {
 			dataSizeSize = 2; // 2 bytes for data size
 			
+			readNBytesInputStream(2, byteData, readBytes);
+			readBytes += 2;
+			
 			int byte3 = byteData[2] & 0xff; // complement à 2 pour avoir l'entier non signe	
-			int byte4 = byteData[3] & 0xff; // complement à 2 pour avoir l'entier non signe									
+			int byte4 = byteData[3] & 0xff; // complement à 2 pour avoir l'entier non signe		
+			
+			System.out.println("Byte 3 " + byte3 + "\tByte4 " + byte4);
+			
 			dataSize = (int) (byte3 << 8 | byte4); // concatenate the bytes to get the data size
+
+			System.out.println("2 Bytes datasize : " + dataSize);
 		}
 		else if(diff == 127) {
 			System.err.println("Unsupported data size ! (Data size is 8 bytes long)");
