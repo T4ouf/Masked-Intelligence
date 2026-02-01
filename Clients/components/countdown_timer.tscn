@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://betypgjdm3f10"]
+
+[ext_resource type="Script" uid="uid://bnbunr5txnvnc" path="res://components/countdown_timer.gd" id="1_0jd4x"]
+
+[node name="CountdownTimer" type="MarginContainer" unique_id=1749171765]
+top_level = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_bottom = 23.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 2
+script = ExtResource("1_0jd4x")
+
+[node name="SecondsTimer" type="Timer" parent="." unique_id=222697037]
+
+[node name="Label" type="Label" parent="." unique_id=2101799753]
+layout_mode = 2
+text = "Time: 0s"
+
+[connection signal="timeout" from="SecondsTimer" to="." method="_on_seconds_timer_timeout"]

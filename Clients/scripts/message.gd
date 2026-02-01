@@ -1,7 +1,7 @@
 extends MarginContainer
 class_name Message
 
-const my_scene: PackedScene = preload("res://scenes/message.tscn")
+const my_scene: PackedScene = preload("res://components/message.tscn")
 
 ## Set the label texts in the message.
 func set_data(account: Account, msg_text: String):

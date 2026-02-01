@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://8q8b4myxr24s"]
 
-[ext_resource type="Script" uid="uid://wgiryvwdvmdx" path="res://scripts/main_chat.gd" id="1_a1jlk"]
+[ext_resource type="Script" uid="uid://wgiryvwdvmdx" path="res://scripts/android_chat.gd" id="1_a1jlk"]
 [ext_resource type="Resource" uid="uid://cbwv2aca6mlyk" path="res://resources/account_default.tres" id="2_nkucq"]
-[ext_resource type="PackedScene" uid="uid://cypn2o603pvut" path="res://scenes/message.tscn" id="3_lnh72"]
+[ext_resource type="PackedScene" uid="uid://cypn2o603pvut" path="res://components/message.tscn" id="3_lnh72"]
 [ext_resource type="StyleBox" uid="uid://cft7dqmsgmeyd" path="res://resources/chatbox_style_box_flat.tres" id="3_nkucq"]
 [ext_resource type="StyleBox" uid="uid://b08ksuossydhb" path="res://resources/sidebar_style_box_flat.tres" id="3_u48mk"]
+[ext_resource type="PackedScene" uid="uid://betypgjdm3f10" path="res://components/countdown_timer.tscn" id="6_u1aqf"]
 
 [sub_resource type="Theme" id="Theme_8i8ot"]
 default_font_size = 16
@@ -73,7 +74,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
+[node name="CountdownTimer" parent="MarginContainer/HBoxContainer/Chat" unique_id=1749171765 instance=ExtResource("6_u1aqf")]
+layout_mode = 2
+size_flags_horizontal = 8
+
 [node name="ChatScroller" type="ScrollContainer" parent="MarginContainer/HBoxContainer/Chat" unique_id=396590605]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("3_nkucq")
@@ -81,12 +87,9 @@ follow_focus = true
 horizontal_scroll_mode = 0
 
 [node name="ChatBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Chat/ChatScroller" unique_id=1580663306]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="TimeLabel" type="Label" parent="MarginContainer/HBoxContainer/Chat/ChatScroller/ChatBox" unique_id=1185476223]
-layout_mode = 2
-text = "Time: 0s"
 
 [node name="HBoxContainer" parent="MarginContainer/HBoxContainer/Chat/ChatScroller/ChatBox" unique_id=1054771256 instance=ExtResource("3_lnh72")]
 layout_mode = 2
@@ -97,6 +100,7 @@ size_flags_vertical = 8
 theme_override_constants/separation = 0
 
 [node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/Chat/MsgEntry" unique_id=362965322]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3

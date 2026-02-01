@@ -1,10 +1,10 @@
 extends Control
 
 const font_size_default : int = 16 ## in px
-const message: PackedScene = preload("res://scenes/message.tscn")
+const message: PackedScene = preload("res://components/message.tscn")
 @export var current_account: Account
-@onready var inpt_text_edit = $MarginContainer/HBoxContainer/Chat/MsgEntry/TextEdit
-@onready var chatbox = $MarginContainer/HBoxContainer/Chat/ChatScroller/ChatBox
+@onready var inpt_text_edit = $%TextEdit
+@onready var chatbox = $%ChatBox
 @export var font_scale: float = 1.0:
 	set(value):
 		if value != 0:
@@ -12,7 +12,7 @@ const message: PackedScene = preload("res://scenes/message.tscn")
 @export var message_limit: int = 3000
 
 ## Chat scroller
-@onready var chat_scroller = $MarginContainer/HBoxContainer/Chat/ChatScroller
+@onready var chat_scroller = $%ChatScroller
 var scrollbar: VScrollBar
 var auto_scroll_speed : float = 0.1
 var max_scroll_length : float

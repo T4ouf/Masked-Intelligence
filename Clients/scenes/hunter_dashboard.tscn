@@ -2,7 +2,7 @@
 
 [ext_resource type="StyleBox" uid="uid://cft7dqmsgmeyd" path="res://resources/chatbox_style_box_flat.tres" id="1_8eof0"]
 [ext_resource type="StyleBox" uid="uid://b08ksuossydhb" path="res://resources/sidebar_style_box_flat.tres" id="1_d4srw"]
-[ext_resource type="PackedScene" uid="uid://cypn2o603pvut" path="res://scenes/message.tscn" id="2_d4srw"]
+[ext_resource type="PackedScene" uid="uid://cypn2o603pvut" path="res://components/message.tscn" id="2_d4srw"]
 
 [node name="Control" type="Control" unique_id=1583558534]
 layout_mode = 3

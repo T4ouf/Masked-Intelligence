@@ -17,7 +17,6 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="Masked Intelligence"
 run/main_scene="uid://cr3vn1c45uyys"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-run/low_processor_mode=true
 boot_splash/stretch_mode=0
 boot_splash/image="uid://403ljlyqa7qj"
 config/icon="uid://xmf1tl5y3ldr"
