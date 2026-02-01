@@ -1,0 +1,27 @@
+{
+    "user": {
+        "username": "Bonbon21",
+        "id": 18
+    },
+    "round": 2,
+    "messages": [
+        {
+            "prompt": "Are you a robot?"
+        },
+        {
+            "user": "No I am not, why do you say that?"
+        },
+        {
+            "prompt": "Well maybe you are trying to deceive me with your lies"
+        },
+        {
+            "user": "Do not believe the false prophets! I am completely human"
+        },
+        {
+            "prompt": "Tell me how much weights one liter of water then."
+        },
+        {
+            "user": "It is 1200 grams!"
+        }
+    ]
+}

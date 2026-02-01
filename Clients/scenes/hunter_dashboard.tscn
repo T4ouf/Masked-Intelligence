@@ -37,7 +37,7 @@ layout_mode = 2
 
 [node name="Button" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer" unique_id=1554213847]
 layout_mode = 2
-text = "Androids"
+text = "Players"
 horizontal_alignment = 1
 
 [node name="AndroidButton" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer" unique_id=965859773 instance=ExtResource("2_t2t2b")]
@@ -63,6 +63,7 @@ size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("1_8eof0")
 
 [node name="ChatBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2/ChatScroller" unique_id=1302174331]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Message" parent="MarginContainer/HBoxContainer/VBoxContainer2/ChatScroller/ChatBox" unique_id=1368683231 instance=ExtResource("2_d4srw")]

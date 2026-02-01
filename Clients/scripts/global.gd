@@ -27,6 +27,9 @@ func unpack_message(msg: String) -> Array:
 		return ["ERROR", {"reason": "Failed to parse the following message to json: " + msg}]
 	return [json["message_type"], json["content"]]
 
+func json_file_to_dict(json_filename: String) -> Dictionary:
+	return JSON.parse_string(FileAccess.get_file_as_string(json_filename))
+
 func get_page_path(page: UIPage) -> String:
 	match page:
 		UIPage.MAIN_MENU:
