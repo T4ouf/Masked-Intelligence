@@ -15,6 +15,18 @@ var game_id: String
 func _ready() -> void:
 	socket = WebSocketClient.new()
 
+func create_message(type: String, contents) -> String:
+	return JSON.stringify({
+		"message_type": type,
+		"content": contents,
+	})
+
+func unpack_message(msg: String) -> Array:
+	var json = JSON.parse_string(msg)
+	if json == null:
+		return ["ERROR", {"reason": "Failed to parse the following message to json: " + msg}]
+	return [json["message_type"], json["content"]]
+
 func get_page_path(page: UIPage) -> String:
 	match page:
 		UIPage.MAIN_MENU:

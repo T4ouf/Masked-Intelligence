@@ -36,23 +36,27 @@ func _show_error(reason: String) -> void:
 
 func _on_connected_to_server() -> void:
 	print("Connected!")
-	var err = Global.socket.send("CREATE_GAME " + JSON.stringify(game_config))
+	var msg = Global.create_message("CREATE_GAME", game_config)
+	var err = Global.socket.send(msg)
 	if err != Error.OK:
 		_show_error("Failed to send a message (code: %d)" % [err])
 		return
 
 func _on_message_received(s: Variant) -> void:
 	print("Received: ", s)
-	var parts = String(s).split(" ")
-	assert(len(parts) == 2)
-	if parts[0] == "ERROR":
-		_show_error(parts[2])
-		return
-	
-	Global.config = game_config
-	Global.game_id = parts[1]
+	var msg = Global.unpack_message(s)
+	match msg[0]:
+		"ERROR":
+			_show_error(msg[1]["reason"])
+			Global.socket.clear()
+		"CREATE_GAME":
+			Global.config = game_config
+			Global.game_id = msg[1]["game_id"]
 
-	get_tree().change_scene_to_file(Global.get_page_path(Global.UIPage.MASTER_LOBBY))
+			get_tree().change_scene_to_file(Global.get_page_path(Global.UIPage.MASTER_LOBBY))
+		_:
+			_show_error("Received unexpected message type " + msg[0])
+			Global.socket.clear()
 
 
 func _on_server_disconnected() -> void:

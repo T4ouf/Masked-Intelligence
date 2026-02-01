@@ -31,7 +31,8 @@ func show_error(reason: String) -> void:
 func _on_connected_to_server() -> void:
 	print("Connected!")
 	$%LoadingLabel.text = "Connected to the server\nJoining game ..."
-	Global.socket.send("JOIN_GAME " + game_id)
+	var msg = Global.create_message("JOIN_GAME", {"game_id": Global.game_id})
+	Global.socket.send(msg)
 
 func _on_server_disconnected() -> void:
 	print("Server has disconnected")
@@ -40,17 +41,21 @@ func _on_server_disconnected() -> void:
 func _on_message_received(s: Variant) -> void:
 	assert(typeof(s) == TYPE_STRING)
 	print("Received a message: ", s)
-	var parts = String(s).split(" ", false, 1)
-	if parts[0] == "ERROR":
-		$LoadingPopup.hide()
-		show_error(parts[1])
-		Global.socket.clear()
-		return
-	
-	var game_id_ = parts[1]
-	Global.game_id = game_id_
-
-	get_tree().change_scene_to_file(Global.get_page_path(Global.UIPage.PLAYER_LOBBY))
+	var msg = Global.unpack_message(s)
+	match msg[0]:
+		"ERROR":
+			$LoadingPopup.hide()
+			show_error(msg[1]["reason"])
+			Global.socket.clear()
+		"JOIN_GAME":
+			Global.game_id = msg[1]["game_id"]
+			get_tree().change_scene_to_file(Global.get_page_path(Global.UIPage.PLAYER_LOBBY))
+		_:
+			var error_msg = "Received unexpected message type " + msg[0]
+			print(error_msg)
+			$LoadingPopup.hide()
+			show_error(error_msg)
+			Global.socket.clear()
 
 
 func _on_join_button_pressed() -> void:

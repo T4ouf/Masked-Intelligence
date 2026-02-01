@@ -15,12 +15,19 @@ func _process(_delta: float) -> void:
 
 func _on_message_received(s: Variant) -> void:
 	print("Received: ", s)
-	if s == "CANCEL " + Global.game_id:
-		Global.socket.clear()
-		get_tree().change_scene_to_file(Global.get_page_path(Global.UIPage.CREATE_GAME))
+	var msg = Global.unpack_message(s)
+
+	match msg[0]:
+		"CANCEL":
+			Global.socket.clear()
+			get_tree().change_scene_to_file(Global.get_page_path(Global.UIPage.CREATE_GAME))
+		_:
+			pass # TODO
+
 
 func _on_connection_closed() -> void:
 	pass
 
 func _on_cancel() -> void:
-	Global.socket.send("CANCEL " + Global.game_id)
+	var msg = Global.create_message("CANCEL", {"game_id": Global.game_id})
+	Global.socket.send(msg)
