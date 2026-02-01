@@ -2,15 +2,19 @@
 
 [ext_resource type="StyleBox" uid="uid://cft7dqmsgmeyd" path="res://resources/chatbox_style_box_flat.tres" id="1_8eof0"]
 [ext_resource type="StyleBox" uid="uid://b08ksuossydhb" path="res://resources/sidebar_style_box_flat.tres" id="1_d4srw"]
+[ext_resource type="Script" uid="uid://cab18clyh1t03" path="res://scenes/hunter_dashboard.gd" id="1_h4q30"]
 [ext_resource type="PackedScene" uid="uid://cypn2o603pvut" path="res://components/message.tscn" id="2_d4srw"]
+[ext_resource type="PackedScene" uid="uid://cbwuafv6r4olk" path="res://components/android_button.tscn" id="2_t2t2b"]
+[ext_resource type="PackedScene" uid="uid://duvd0j24brh8o" path="res://components/round_button.tscn" id="3_k4cnr"]
 
-[node name="Control" type="Control" unique_id=1583558534]
+[node name="HunterDashboard" type="Control" unique_id=1583558534]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_h4q30")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1391626394]
 layout_mode = 1
@@ -31,17 +35,13 @@ theme_override_styles/panel = ExtResource("1_d4srw")
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=23976064]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer" unique_id=1126374908]
+[node name="Button" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer" unique_id=1554213847]
 layout_mode = 2
-text = "User 1"
+text = "Androids"
+horizontal_alignment = 1
 
-[node name="Button2" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer" unique_id=25288615]
+[node name="AndroidButton" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer" unique_id=965859773 instance=ExtResource("2_t2t2b")]
 layout_mode = 2
-text = "User 2"
-
-[node name="Button3" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer" unique_id=1872782879]
-layout_mode = 2
-text = "User 3"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=811683659]
 layout_mode = 2
@@ -54,13 +54,8 @@ theme_override_styles/panel = ExtResource("1_d4srw")
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer" unique_id=1408417633]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/HBoxContainer" unique_id=1982635494]
+[node name="RoundButton" parent="MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/HBoxContainer" unique_id=474949640 instance=ExtResource("3_k4cnr")]
 layout_mode = 2
-text = "Round 1"
-
-[node name="Button2" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/HBoxContainer" unique_id=1982279412]
-layout_mode = 2
-text = "Round 2"
 
 [node name="ChatScroller" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=403261967]
 layout_mode = 2
