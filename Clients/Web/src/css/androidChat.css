@@ -1,0 +1,12 @@
+main {
+  display: flex;
+  flex-direction: row;
+}
+
+aside {
+  flex: 10%;
+}
+
+section {
+  flex: 90%;
+}

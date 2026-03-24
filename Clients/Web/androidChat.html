@@ -1,17 +1,42 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Android chat</title>
+    <link href="src/css/androidChat.css" rel="stylesheet" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Android chat</title>
-  <link href="src/css/style.css" rel="stylesheet" />
-</head>
-
-<body>
-  <header>
-    <h1>Android chat</h1>
-  </header>
-</body>
-
+  <body>
+    <header>
+      <h1>Android chat</h1>
+    </header>
+    <main>
+      <aside>
+        <nav>
+          <label for="fontScale">Font scale</label>
+          <input
+            id="fontScale"
+            type="number"
+            name="fontScale"
+            value="1"
+            step="0.1"
+          />
+        </nav>
+      </aside>
+      <section>
+        <ul class="chat"></ul>
+        <form id="inputForm">
+          <textarea
+            id="textInput"
+            rows="5"
+            cols="40"
+            placeholder="Enter your message..."
+          ></textarea>
+          <input id="submitTextInput" type="submit" value="submit" />
+        </form>
+      </section>
+    </main>
+    <script type="module" src="/src/js/androidChat.js" defer></script>
+  </body>
 </html>
