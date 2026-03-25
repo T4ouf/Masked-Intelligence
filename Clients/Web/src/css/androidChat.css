@@ -1,12 +1,94 @@
-main {
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  /* let the header take its natural height, and .container takes the rest with flex: 1 */
+  display: flex;
+  flex-direction: column;
+}
+
+header h1 {
+  text-align: center;
+}
+
+.container {
+  flex: 1;
   display: flex;
   flex-direction: row;
+  min-height: 0;
+  /* height: calc(100% - 2rem); */
 }
 
-aside {
+.sidebar {
   flex: 10%;
+  padding: 0.5rem;
 }
 
-section {
+.content {
   flex: 90%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#chatBox {
+  overflow-y: scroll;
+  flex: 1;
+  min-height: 0;
+  /* height: 500px; */
+}
+
+
+.exchangeContainer {
+  padding: 0.5rem;
+}
+
+.promptContainer {
+  text-align: left;
+}
+
+.messageContainer {
+  text-align: right;
+}
+
+.inputFormDiv {
+  /* prevents the form area from being squished */
+  flex-shrink: 0;
+  margin-top: auto;
+  min-height: 5rem;
+  padding: 1rem;
+}
+
+#inputForm {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+#textInput {
+  padding: 0.5rem;
+  flex-grow: 2;
+}
+
+#submitTextInput {
+  flex-grow: 1;
+}
+
+
+@media (max-width: 979px) {
+  .container {
+    display: flex;
+    flex-flow: column wrap;
+  }
+
+  .container .sidebar {
+    order: 1;
+  }
+
+  .container .content {
+    order: 2;
+  }
 }

@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Android chat</title>
     <link href="src/css/androidChat.css" rel="stylesheet" />
   </head>
@@ -11,8 +12,8 @@
     <header>
       <h1>Android chat</h1>
     </header>
-    <main>
-      <aside>
+    <div class="container">
+      <aside class="sidebar">
         <nav>
           <label for="fontScale">Font scale</label>
           <input
@@ -24,19 +25,21 @@
           />
         </nav>
       </aside>
-      <section>
-        <ul class="chat"></ul>
-        <form id="inputForm">
-          <textarea
-            id="textInput"
-            rows="5"
-            cols="40"
-            placeholder="Enter your message..."
-          ></textarea>
-          <input id="submitTextInput" type="submit" value="submit" />
-        </form>
-      </section>
-    </main>
+      <main class="content">
+        <section id="chatBox"></section>
+        <div class="inputFormDiv">
+          <form id="inputForm">
+            <textarea
+              id="textInput"
+              name="textInput"
+              rows="5"
+              placeholder="Enter your message..."
+            ></textarea>
+            <input id="submitTextInput" type="submit" value="submit" />
+          </form>
+        </div>
+      </main>
+    </div>
     <script type="module" src="/src/js/androidChat.js" defer></script>
   </body>
 </html>
