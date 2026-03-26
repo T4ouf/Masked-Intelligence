@@ -27,6 +27,16 @@ header h1 {
   padding: 0.5rem;
 }
 
+.sideOptionDiv {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+.sideOptionDiv input[type='number'] {
+  width: 4rem;
+}
+
 .content {
   flex: 90%;
   display: flex;
@@ -44,7 +54,7 @@ header h1 {
 
 
 .exchangeContainer {
-  padding: 0.5rem;
+  padding: 1rem;
 }
 
 .promptContainer {
@@ -69,19 +79,28 @@ header h1 {
 }
 
 #textInput {
+  /* By default, textarea does not inherit font settings */
+  font-family: inherit;
+  font-size: inherit;
   padding: 0.5rem;
   flex-grow: 2;
 }
 
 #submitTextInput {
+  /* Setting the background color breaks the aqua appearance, allowing to set font size */
+  background-color: lightsteelblue;
+  font-family: inherit;
+  font-size: inherit;
   flex-grow: 1;
 }
 
 
-@media (max-width: 979px) {
+/* the only operator is used to prevent older browsers from applying the styles without evaluating the media feature expressions but it has no effect in modern browsers. */
+@media only screen and (max-width: 700px) {
   .container {
+    min-height: 0;
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: column;
   }
 
   .container .sidebar {
