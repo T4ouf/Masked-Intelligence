@@ -53,17 +53,22 @@ header h1 {
   background-color: whitesmoke;
   border-radius: 1rem;
   row-gap: 0.5rem;
+  padding: 0.5rem;
 }
 
 
 .exchangeContainer {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .messageContainer {
   display: flex;
   flex-direction: row;
   column-gap: 1rem;
+}
+
+.messageContainer p {
+  max-width: 70%;
 }
 
 

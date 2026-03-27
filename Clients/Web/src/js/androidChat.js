@@ -5,6 +5,7 @@ const bodyTag = document.body;
 const fontScaleInput = document.querySelector("#fontScale");
 const chatBox = document.querySelector("#chatBox");
 const inputForm = document.querySelector("#inputForm");
+const formTextInput = document.querySelector("#textInput");
 
 const baseSize = parseFloat(window.getComputedStyle(bodyTag).fontSize);
 
@@ -41,6 +42,20 @@ function addExchange(exchange) {
   exchangeDiv.appendChild(promptDiv);
   exchangeDiv.appendChild(answerDiv);
   chatBox.appendChild(exchangeDiv);
+  // Scroll to bottom of chatBox
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function submitInputForm(event) {
+  // Prevent default reload of page on submit
+  event.preventDefault();
+  const exchange = {
+    prompt: formTextInput.value,
+    answer: "Placeholder answer of bot...",
+  };
+  // After getting its value, clear text from textarea
+  formTextInput.value = "";
+  addExchange(exchange);
 }
 
 // Event Listeners
@@ -57,12 +72,10 @@ fontScaleInput.addEventListener("input", () => {
   bodyTag.style.fontSize = baseSize * fontScale + "px";
 });
 
-inputForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const exchange = {
-    prompt: event.target.textInput.value,
-    answer: "Placeholder answer of bot",
-  };
-  console.log(event.target.textInput.value);
-  addExchange(exchange);
+inputForm.addEventListener("submit", submitInputForm);
+inputForm.addEventListener("keypress", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    submitInputForm(event);
+  }
 });
