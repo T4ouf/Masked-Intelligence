@@ -6,13 +6,20 @@
     "round": 2,
     "messages": [
         {
-            "prompt": "Are you a robot?", "answer":"No I am not, why do you say that?"
+            "prompt": "Are you a robot?",
+            "answer": "No I am not, why do you say that?"
         },
         {
-            "prompt": "Well maybe you are trying to deceive me with your lies", "answer":"Do not believe the false prophets! I am completely human"
+            "prompt": "Well maybe you are trying to deceive me with your lies. I am done with lies, I really like telling big messages like this to force people to wrap around messages.",
+            "answer": "Do not believe the false prophets! I am completely human"
         },
         {
-            "prompt": "Tell me how much weights one liter of water then.", "answer": "It is 1200 grams!"
+            "prompt": "Tell me how much weights one liter of water then.",
+            "answer": "It is 1200 grams!"
+        },
+        {
+            "prompt": "Such idiocy could only come from a clanker...",
+            "answer": "OMG you did not just say that!"
         }
     ]
 }

@@ -1,6 +1,7 @@
 html,
 body {
   height: 100%;
+  background-color: powderblue;
 }
 
 body {
@@ -49,7 +50,9 @@ header h1 {
   overflow-y: scroll;
   flex: 1;
   min-height: 0;
-  /* height: 500px; */
+  background-color: whitesmoke;
+  border-radius: 1rem;
+  row-gap: 0.5rem;
 }
 
 
@@ -57,12 +60,35 @@ header h1 {
   padding: 1rem;
 }
 
-.promptContainer {
-  text-align: left;
+.messageContainer {
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
 }
 
-.messageContainer {
-  text-align: right;
+
+.promptContainer {
+  justify-content: right;
+}
+
+.promptContainer p {
+  order: 1
+}
+
+.promptContainer img {
+  order: 2
+}
+
+.answerContainer {
+  justify-content: left;
+}
+
+.answerContainer p {
+  order: 2
+}
+
+.answerContainer img {
+  order: 1
 }
 
 .inputFormDiv {
@@ -70,7 +96,7 @@ header h1 {
   flex-shrink: 0;
   margin-top: auto;
   min-height: 5rem;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 #inputForm {
@@ -84,6 +110,7 @@ header h1 {
   font-size: inherit;
   padding: 0.5rem;
   flex-grow: 2;
+  border-radius: 0.5rem;
 }
 
 #submitTextInput {
@@ -92,6 +119,7 @@ header h1 {
   font-family: inherit;
   font-size: inherit;
   flex-grow: 1;
+  border-radius: 0.5rem;
 }
 
 
