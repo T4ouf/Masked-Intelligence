@@ -10,6 +10,7 @@ const baseSize = parseFloat(window.getComputedStyle(bodyTag).fontSize);
 // Functions
 
 function addMessage(message) {
+  // Div containers
   const exchangeDiv = document.createElement("div");
   const messageDiv = document.createElement("div");
   const promptDiv = document.createElement("div");
@@ -17,9 +18,20 @@ function addMessage(message) {
   exchangeDiv.classList.add("exchangeContainer");
   messageDiv.classList.add("messageContainer");
   promptDiv.classList.add("promptContainer");
+  // Divs inside containers, aligned with flexbox
+  const promptImg = document.createElement("img");
+  promptImg.src = "androidIcon.svg";
+  promptImg.alt = "androidIcon";
+  promptImg.style.cssText = `
+  width: 50px;
+  height: 50px;
+  `;
+  promptDiv.appendChild(promptImg);
   // Insert answer and prompt
+  const promptPar = document.createElement("p");
   messageDiv.innerText = message.answer;
-  promptDiv.innerText = message.prompt;
+  promptPar.innerText = message.prompt;
+  promptDiv.appendChild(promptPar);
   // Add divs to document
   exchangeDiv.appendChild(promptDiv);
   exchangeDiv.appendChild(messageDiv);
