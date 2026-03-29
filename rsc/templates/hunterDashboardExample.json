@@ -1,0 +1,21 @@
+{
+    "rounds": [
+        {
+            "prompt": "What is MK's dair frame data in smash ultimate ?",
+            "prompterID": 2,
+            "userIDToAnswer": {
+                "1": "hitbox starts on frame 4 and lastx for 1 frame.",
+                "0": "Broken startup, that' all you need to know.",
+                "2": "idk bro...."
+            }
+        },
+        {
+            "prompt": "Sir, would you mind telling me what is Fox's dair frame data in smash ultimate ?",
+            "prompterID": 1,
+            "userIDToAnswer": {
+                "0": "hitbox starts on frame 4 and lasts for 12 frame.",
+                "1": "a quick \"spin to win\" option !"
+            }
+        }
+    ]
+}

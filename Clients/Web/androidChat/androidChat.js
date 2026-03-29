@@ -2,10 +2,10 @@
 import chatState from "./androidChatDefaultMessages.json" with { type: "json" };
 
 const bodyTag = document.body;
-const fontScaleInput = document.querySelector("#fontScale");
-const chatBox = document.querySelector("#chatBox");
-const inputForm = document.querySelector("#inputForm");
-const formTextInput = document.querySelector("#textInput");
+const fontScaleInput = document.getElementById("fontScale");
+const chatBox = document.getElementById("chatBox");
+const inputForm = document.getElementById("inputForm");
+const formTextInput = document.getElementById("textInput");
 
 const baseSize = parseFloat(window.getComputedStyle(bodyTag).fontSize);
 
@@ -22,7 +22,7 @@ function addExchange(exchange) {
   promptDiv.classList.add("messageContainer", "promptContainer");
   // Divs inside containers, aligned with flexbox
   const promptImg = document.createElement("img");
-  promptImg.src = "androidIcon.svg";
+  promptImg.src = "/rsc/img/icons/androidIcon.png";
   promptImg.alt = "androidIcon";
   promptImg.style.cssText = `
   width: 50px;
@@ -34,6 +34,8 @@ function addExchange(exchange) {
   // Insert answer and prompt
   const promptPar = document.createElement("p");
   const answerPar = document.createElement("p");
+  promptPar.classList.add("message", "prompt");
+  answerPar.classList.add("message", "answer");
   answerPar.innerText = exchange.answer;
   promptPar.innerText = exchange.prompt;
   promptDiv.appendChild(promptPar);

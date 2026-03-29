@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hunter dashboard</title>
+</head>
+
+<body>
+  <header>
+    <h1>Hunter dashboard</h1>
+  </header>
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <div class="sideOptionDiv">
+          <label for="fontScale">Font scale</label>
+          <input id="fontScale" type="number" name="fontScale" value="1" step="0.1" />
+        </div>
+      </nav>
+
+    </aside>
+    <main class="content">
+      <section id="chatBox"></section>
+      <div class="inputFormDiv">
+        <form id="inputForm">
+          <textarea id="textInput" name="textInput" rows="5" placeholder="Enter your message..."></textarea>
+          <input id="submitTextInput" type="submit" value="submit" />
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>
