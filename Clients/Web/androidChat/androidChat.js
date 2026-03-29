@@ -1,39 +1,43 @@
 "use strict";
 import chatState from "./androidChatDefaultMessages.json" with { type: "json" };
-
-const bodyTag = document.body;
-const fontScaleInput = document.getElementById("fontScale");
-const chatBox = document.getElementById("chatBox");
-const inputForm = document.getElementById("inputForm");
-const formTextInput = document.getElementById("textInput");
-
-const baseSize = parseFloat(window.getComputedStyle(bodyTag).fontSize);
+var fontSize = 16;
 
 // Functions
+function submitInputForm(event) {
+  // Prevent default reload of page on submit
+  let exchange = {
+    prompt: textInput.value,
+    answer: "Placeholder answer of bot...",
+  };
+  // After getting its value, clear text from textarea
+  textInput.value = "";
+  addExchange(exchange);
+}
 
 function addExchange(exchange) {
+  let chatBox = document.getElementById("chatBox");
   // Div containers
-  const exchangeDiv = document.createElement("div");
-  const answerDiv = document.createElement("div");
-  const promptDiv = document.createElement("div");
+  let exchangeDiv = document.createElement("div");
+  let answerDiv = document.createElement("div");
+  let promptDiv = document.createElement("div");
   // Add styles
   exchangeDiv.classList.add("exchangeContainer");
   answerDiv.classList.add("messageContainer", "answerContainer");
   promptDiv.classList.add("messageContainer", "promptContainer");
   // Divs inside containers, aligned with flexbox
-  const promptImg = document.createElement("img");
+  let promptImg = document.createElement("img");
   promptImg.src = "/rsc/img/icons/androidIcon.png";
   promptImg.alt = "androidIcon";
   promptImg.style.cssText = `
   width: 50px;
   height: 50px;
   `;
-  const answerImg = promptImg.cloneNode(true);
+  let answerImg = promptImg.cloneNode(true);
   promptDiv.appendChild(promptImg);
   answerDiv.appendChild(answerImg);
   // Insert answer and prompt
-  const promptPar = document.createElement("p");
-  const answerPar = document.createElement("p");
+  let promptPar = document.createElement("p");
+  let answerPar = document.createElement("p");
   promptPar.classList.add("message", "prompt");
   answerPar.classList.add("message", "answer");
   answerPar.innerText = exchange.answer;
@@ -48,36 +52,35 @@ function addExchange(exchange) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function submitInputForm(event) {
-  // Prevent default reload of page on submit
-  event.preventDefault();
-  const exchange = {
-    prompt: formTextInput.value,
-    answer: "Placeholder answer of bot...",
-  };
-  // After getting its value, clear text from textarea
-  formTextInput.value = "";
-  addExchange(exchange);
-}
+window.onload = function () {
+  let bodyTag = document.body;
+  let fontSizeInput = document.getElementById("fontSizeInput");
+  let sendBtn = document.getElementById("sendBtn");
 
-// Event Listeners
+  // Set default font size for all messages
+  fontSizeInput.value = fontSize;
 
-window.addEventListener("load", () => {
-  for (const exchange of chatState.messages) {
+  for (let exchange of chatState.messages) {
     console.log(exchange);
     addExchange(exchange);
   }
-});
 
-fontScaleInput.addEventListener("input", () => {
-  const fontScale = fontScaleInput.value;
-  bodyTag.style.fontSize = baseSize * fontScale + "px";
-});
+  // Event Listeners
 
-inputForm.addEventListener("submit", submitInputForm);
-inputForm.addEventListener("keypress", (event) => {
-  if (event.key === "Enter" && !event.shiftKey) {
-    event.preventDefault();
-    submitInputForm(event);
-  }
-});
+  fontSizeInput.addEventListener("change", () => {
+    fontSize = fontSizeInput.value;
+    let elements = document.getElementsByClassName("message");
+    console.log(elements);
+    for (let element of elements) {
+      element.style.fontSize = fontSize + "px";
+    }
+  });
+
+  sendBtn.addEventListener("click", submitInputForm);
+  // textInput.addEventListener("keypress", (event) => {
+  //   if (event.key === "Enter" && !event.shiftKey) {
+  //     event.preventDefault();
+  //     submitInputForm(event);
+  //   }
+  // });
+};

@@ -1,37 +1,45 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Android chat</title>
+    <link href="androidChat.css" rel="stylesheet" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Android chat</title>
-  <link href="androidChat.css" rel="stylesheet" />
-</head>
-
-<body>
-  <header>
-    <h1>Android chat</h1>
-  </header>
-  <div class="container">
-    <aside class="sidebar">
-      <nav>
-        <div class="sideOptionDiv">
-          <label for="fontScale">Font scale</label>
-          <input id="fontScale" type="number" name="fontScale" value="1" step="0.1" />
+  <body>
+    <header>
+      <h1>Android chat</h1>
+    </header>
+    <div class="container">
+      <aside class="sidebar">
+        <nav>
+          <div class="sideOptionDiv">
+            <label for="fontSizeInput">Font size</label>
+            <input
+              id="fontSizeInput"
+              type="number"
+              name="fontSize"
+              value="1"
+              step="0.1"
+            />
+          </div>
+        </nav>
+      </aside>
+      <main class="content">
+        <section id="chatBox"></section>
+        <div class="textInputDiv">
+          <!-- TODO: not use form, just input button -->
+          <textarea
+            id="textInput"
+            name="textInput"
+            rows="5"
+            placeholder="Enter your message..."
+          ></textarea>
+          <button id="sendBtn" type="button">Send</button>
         </div>
-      </nav>
-    </aside>
-    <main class="content">
-      <section id="chatBox"></section>
-      <div class="inputFormDiv">
-        <form id="inputForm">
-          <textarea id="textInput" name="textInput" rows="5" placeholder="Enter your message..."></textarea>
-          <input id="submitTextInput" type="submit" value="submit" />
-        </form>
-      </div>
-    </main>
-  </div>
-  <script type="module" src="androidChat.js" defer></script>
-</body>
-
+      </main>
+    </div>
+    <script type="module" src="androidChat.js" defer></script>
+  </body>
 </html>

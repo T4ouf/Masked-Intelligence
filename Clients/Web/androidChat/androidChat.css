@@ -96,15 +96,12 @@ header h1 {
   order: 1
 }
 
-.inputFormDiv {
+.textInputDiv {
   /* prevents the form area from being squished */
   flex-shrink: 0;
   margin-top: auto;
   min-height: 5rem;
   padding: 0.5rem;
-}
-
-#inputForm {
   display: flex;
   flex-flow: row wrap;
 }
@@ -118,7 +115,7 @@ header h1 {
   border-radius: 0.5rem;
 }
 
-#submitTextInput {
+#sendBtn {
   /* Setting the background color breaks the aqua appearance, allowing to set font size */
   background-color: lightsteelblue;
   font-family: inherit;
