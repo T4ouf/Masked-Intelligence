@@ -1,4 +1,4 @@
-package server;
+package websocketServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,12 +73,20 @@ public class WebSocketServer {
 								
 								// if the client disconnected => remove it from the clients
 								if(!client.isConnected()) {
+									System.out.println("Client#" + client.id + " disconnected");
+									//TODO CLOSE HANDSHAKE
 									clients.remove(i);
 									i = i - 1; // to not skip a client in the listening
 								}
 								else if(client.hasDataIn()) {
 									String msg = client.readMessage();
-									System.out.println("Client#"+client.id+" : " + msg);
+									
+									if(msg != null) {
+										System.out.println("Client#"+client.id+" : " + msg);
+										DataManager.processMessage(client, msg);
+									}
+									
+									
 								}
 							}
 						}

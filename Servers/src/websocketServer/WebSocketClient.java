@@ -1,12 +1,14 @@
-package server;
+package websocketServer;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.util.Base64;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +17,7 @@ import game.PlayerType;
 
 public class WebSocketClient {
 	private static int BUFFERSIZE = 1024;
+	private static Random RNG = new Random();
 	
 	private static int IDGENERATOR = 0;
 	public int id;
@@ -24,8 +27,8 @@ public class WebSocketClient {
 	private ServerSocket server;
 	private Socket client;
 	
-	private InputStream in = null;
-	private OutputStream out = null;
+	public InputStream in = null;
+	public OutputStream out = null;
 
 	public WebSocketClient(ServerSocket webSocketServer, Socket client) throws IOException {
 		id = IDGENERATOR;
@@ -51,11 +54,21 @@ public class WebSocketClient {
 	}
 	
 	public boolean isConnected() {
-		return client.isConnected();
+		try {
+			in.available();
+			out.hashCode();
+		}
+		catch(IOException e) {
+			return false;
+		}
+		return (client.isConnected() && this.in != null && this.out != null);
 	}
 	
 	public boolean hasDataIn() throws IOException {
-		return (in.available() > 0);
+		if(isConnected())
+			return (in.available() > 0);
+		else
+			return false;
 	}
 	
 	public boolean tryHandshake() {
@@ -127,6 +140,13 @@ public class WebSocketClient {
 		readBytes += 2;
 		
 		int firstByte = byteData[0] & 0xff; // complement à 2 pour avoir l'entier non signe
+		if(firstByte == 136) {
+			System.out.println("Client#" + this.id + " disconnected");
+			this.client.close();
+			return null;
+			
+			// Note data after that explains why the connection closed => we are not reading it for now
+		}
 		if(firstByte != 129) {
 			System.err.println("Unsupported message type ! 1st Byte value should be 129. Byte value : " + firstByte);
 		}
@@ -145,7 +165,6 @@ public class WebSocketClient {
 		if(diff <= 125) {
 			dataSizeSize = 1; // 1 byte for data size
 			dataSize = diff;
-			System.out.println("One Byte datasize : " + dataSize);
 		}
 		else if(diff == 126) {
 			dataSizeSize = 2; // 2 bytes for data size
@@ -156,11 +175,7 @@ public class WebSocketClient {
 			int byte3 = byteData[2] & 0xff; // complement à 2 pour avoir l'entier non signe	
 			int byte4 = byteData[3] & 0xff; // complement à 2 pour avoir l'entier non signe		
 			
-			System.out.println("Byte 3 " + byte3 + "\tByte4 " + byte4);
-			
 			dataSize = (int) (byte3 << 8 | byte4); // concatenate the bytes to get the data size
-
-			System.out.println("2 Bytes datasize : " + dataSize);
 		}
 		else if(diff == 127) {
 			System.err.println("Unsupported data size ! (Data size is 8 bytes long)");
@@ -211,6 +226,79 @@ public class WebSocketClient {
 		msg = new String(decoded);
 		
 		return msg;
+	}
+	
+	public boolean sendMessageTo(String msg, boolean isDataMasked) throws UnsupportedEncodingException {
+		byte[] data = msg.getBytes("UTF-8");
+		int dataSize = data.length;
+		int dataSizeSize = 1;
+		
+		byte[] outFrame = new byte[BUFFERSIZE];
+		outFrame[0] = (byte) 0x81;
+		
+		byte[] key = new byte[4];
+		RNG.nextBytes(key); // generate a random key
+		
+//		for(byte b : key)
+//			System.out.print((b & 0xFF) + " ");
+		
+		int index = 0;
+		
+		if(dataSize < 126) {
+			dataSizeSize = 1;
+			outFrame[1] = (byte) (dataSize & 0xFF);
+			index = 2;
+		}
+		else if(dataSize == 126) {
+			dataSizeSize = 2;
+			outFrame[1] = (byte) 0x7F; // first byte of data is full (except for mask bit that still need to be set)
+			outFrame[2] = (byte) (dataSize & 0xFF);
+			outFrame[3] = (byte) ((dataSize>> 8) & 0xFF);
+			index = 4;
+		}
+		else {
+			dataSizeSize = 8;
+			throw new UnsupportedOperationException("Not implemented for longer messages...");
+		}
+
+		if(isDataMasked) {
+			outFrame[1] = (byte) (outFrame[1] | 0x80); // setting mask bit
+			outFrame[index]   = (key[0]);
+			outFrame[index+1] = (key[1]);
+			outFrame[index+2] = (key[2]);
+			outFrame[index+3] = (key[3]);
+			index = index + 4;
+		}
+		
+		String msgOut = "";
+		for(int i=0; i<dataSize; i++) {
+			if(isDataMasked) {
+				outFrame[index+i] = (byte) (data[i] ^ key[i & 0x3]);
+			}
+			else {
+				outFrame[index+i] = (byte) (data[i]);	
+			}
+			msgOut += (char) ((data[i]^ key[i & 0x3]) ^ key[i & 0x3]);
+			System.out.print((byte) ((data[i]^ key[i & 0x3]) ^ key[i & 0x3]) + " ");
+		}
+		System.out.println("\n----");
+		int j=0;
+		for(j=0; j<outFrame.length; j++) {
+			System.out.print((outFrame[j] & 0xFF) + " ");
+//			if(outFrame[j]!=0) System.out.print((char)(outFrame[j] ^ key[j & 0x3]));
+		}
+		
+		System.out.println("--");
+		System.out.println(msgOut);
+		
+		try {
+			out.write(outFrame, 0, index+dataSize);
+		} catch (IOException e) {
+			System.err.println("Write Message failed...");
+			return false;
+		}
+		
+		return true;
 	}
 
 }
