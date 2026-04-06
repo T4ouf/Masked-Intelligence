@@ -13,15 +13,17 @@ import utils.JSONParser;
 
 public class DataManager {
 
-	public static boolean processMessage(WebSocketClient sender, String msg) {
-		
+	public static HashMap<String, Object> createMessage(String type, HashMap<String, Object> content) {
+		HashMap<String, Object> message = new HashMap<>();
+		message.put("message_type", type);
+		message.put("content", content);
+		return message;
+	}
 
-		HashMap<String, String> response = new HashMap<>();
-		
-		
+	public static boolean processMessage(WebSocketClient sender, String msg) {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> dataMap = null;
-		
+
 		try {
 			dataMap = (Map<String, Object>) mapper.readValue(msg, Map.class);
 		} catch (JsonProcessingException e) {
@@ -29,11 +31,11 @@ public class DataManager {
 			return false;
 		}
 		String msgType = (String) dataMap.get("message_type");
-		
+
 		System.out.println("Message Type : " + msgType);
-		
+
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		
+
 		String content = "";
 		try {
 			content = ow.writeValueAsString(dataMap.get("content"));
@@ -42,11 +44,19 @@ public class DataManager {
 			e.printStackTrace();
 		}
 		System.out.println(content);
-		
-		if(msgType.equalsIgnoreCase("CREATE_GAME")) {
+
+		if (msgType.equalsIgnoreCase("CREATE_GAME")) {
 			Game newGame = JSONParser.parseCREATE_GAME(content);
-			response.put("status", "OK");
-			response.put("GameID", newGame.id);
+			String type = "";
+			HashMap<String, Object> content_ = new HashMap<>();
+			if (newGame != null) {
+				type = "CREATE_GAME";
+				content_.put("game_id", newGame.id);
+			} else {
+				type = "ERROR";
+				content_.put("reason", "Failed to parse a CREATE_GAME request");
+			}
+			HashMap<String, Object> response = createMessage(type, content_);
 			try {
 				sender.sendMessageTo(ow.writeValueAsString(response), true);
 			} catch (Exception e) {
@@ -55,9 +65,9 @@ public class DataManager {
 			}
 			return true;
 		}
-		
+
 		// if the message is not recognized => fail to process message
 		return false;
 	}
-	
+
 }
