@@ -2,9 +2,9 @@ const waiting_dialog = document.getElementById("waiting-dialog");
 const waiting_dialog_text = document.getElementById("waiting-dialog-text");
 var ws = null;
 var connected = false;
-var max_players = 0;
-var connected_players = 0;
 var game_id = "";
+var username = "";
+var player_id = -1;
 
 function validateIPv4Address(ip_addr = "") {
   const components = ip_addr.split(".");
@@ -90,33 +90,21 @@ function messageHandler(event) {
     return;
   }
 
-  if (type == "CREATE_GAME") {
-    game_id = content["game_id"];
-  } else if (type == "PLAYER_JOINED") {
-    connected_players++;
-    // TODO: add a button to start the game when connected_players == max_players
-  } else if (type == "PLAYER_LEFT") {
-    connected_players--;
+  if (type == "JOIN_GAME") {
+    player_id = parseInt(content["id"]);
+    setWaitingDialogText("Your username is " + username + "\r\nWaiting for the game to start...");
   }
-  setWaitingDialogText("The game id is " + game_id + "\r\nWaiting for players to join (" + connected_players + "/" + max_players + ")");
 }
 
 function connectToServer(ip_addr, port, form) {
   waiting_dialog.showModal();
 
-  const nb_hunters = parseInt(form["nb-hunters"].value);
-  const nb_androids = parseInt(form["nb-androids"].value);
-  const nb_ais = parseInt(form["nb-ais"].value);
-  const hunter_turn_duration = parseInt(form["hunter-turn-duration"].value);
-  const android_turn_duration = parseInt(form["android-turn-duration"].value);
-  max_players = nb_hunters + nb_androids;
+  game_id = form["game-id"].value;
+  username = form["username"].value;
   const message = JSON.stringify({
-    message_type: "CREATE_GAME", content: {
-      n_hunter: nb_hunters,
-      n_android: nb_androids,
-      n_ai: nb_ais,
-      hunter_turn_duration: hunter_turn_duration,
-      android_turn_duration: android_turn_duration
+    message_type: "JOIN_GAME", content: {
+      game_id: game_id,
+      username: username,
     }
   });
 
@@ -137,16 +125,26 @@ function connectToServer(ip_addr, port, form) {
 }
 
 function cancelConnection() {
-  // FIXME: send a CANCEL_GAME message
+  if (connected) {
+    const message = JSON.stringify({
+      message_type: "LEAVE_GAME", content: {
+	game_id: game_id,
+	id: player_id,
+      }
+    });
+    ws.send(message);
+  }
+
   ws.close();
   connected = false;
   game_id = "";
-  connected_players = 0;
+  username = "";
+  player_id = -1;
   waiting_dialog.close();
 }
 
 function validateForm() {
-  const form = document.forms["create-game-form"];
+  const form = document.forms["join-game-form"];
   if (!form.reportValidity()) {
     return;
   }

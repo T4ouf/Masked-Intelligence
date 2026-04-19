@@ -18,7 +18,7 @@ public class Game {
 	public int androidTurnDuration; // in seconds
 	
 	public Player GameMaster;
-	public ArrayList<Player> players;
+	public ArrayList<Player> players = new ArrayList<>();
 	
 	public Game(int voteAmount, int AINumber, int androidMaxLimit, int hunterMaxLimit) {
 		this.id = "Game#"+IDGENERATOR;

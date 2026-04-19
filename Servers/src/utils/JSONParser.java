@@ -20,11 +20,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 public abstract class JSONParser {
 
-	public static Game parseCREATE_GAME(String msg){
-		
+	public static Game parseCREATE_GAME(String msg) {
+
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> dataMap = null;
-		
+
 		try {
 			dataMap = (Map<String, Object>) mapper.readValue(msg, Map.class);
 
@@ -32,13 +32,12 @@ public abstract class JSONParser {
 			int androidMaxLimit = (int) dataMap.get("n_android");
 			int hunterMaxLimit = (int) dataMap.get("n_hunter");
 			int androidTurnDuration = (int) dataMap.get("android_turn_duration");
-			int voteAmount = androidMaxLimit +2;
-			
+			int voteAmount = androidMaxLimit + 2;
 
 			return new Game(voteAmount, aiNumber, androidMaxLimit, hunterMaxLimit);
-			
+
 		} catch (JsonMappingException e) {
-			
+
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
@@ -50,33 +49,75 @@ public abstract class JSONParser {
 			e.printStackTrace();
 			return null;
 		}
-		
-		
+
 	}
+
+	public static JoinGameRequest parseJOIN_GAME(String msg) {
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			Map<String, Object> dataMap = (Map<String, Object>) mapper.readValue(msg, Map.class);
+
+			return new JoinGameRequest((String) dataMap.get("game_id"), (String) dataMap.get("username"));
+
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			return null;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	public static LeaveGameRequest parseLEAVE_GAME(String msg) {
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			Map<String, Object> dataMap = (Map<String, Object>) mapper.readValue(msg, Map.class);
+
+			return new LeaveGameRequest((String) dataMap.get("game_id"), (int) dataMap.get("id"));
+
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			return null;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
-		
+
 		String msg = "{\"message_type\":\"CREATE_GAME\",\"content\":{\"android_turn_duration\":120,\"hunter_turn_duration\":120,\"n_ai\":1,\"n_android\":1,\"n_hunter\":1}}";
-		
+
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> dataMap = null;
-		
+
 		dataMap = (Map<String, Object>) mapper.readValue(msg, Map.class);
 		String msgType = (String) dataMap.get("message_type");
-		
+
 		System.out.println("Message Type : " + msgType);
 		System.out.println(msgType.equalsIgnoreCase("CREATE_GAME"));
-		
-		if(msgType.equalsIgnoreCase("CREATE_GAME")) {
+
+		if (msgType.equalsIgnoreCase("CREATE_GAME")) {
 			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-			
+
 			String content = ow.writeValueAsString(dataMap.get("content"));
 			System.out.println(content);
-			
-			assert(JSONParser.parseCREATE_GAME(content) != null);
+
+			assert (JSONParser.parseCREATE_GAME(content) != null);
 		}
-		
-		
-		
+
 	}
-	
+
 }

@@ -2,10 +2,12 @@ package game;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import websocketServer.WebSocketClient;
 
 public class Player {
 	private static int IDGENERATOR;
 	public int id;
+	public WebSocketClient socket;
 	
 	public String username;
 	public boolean isAlive;

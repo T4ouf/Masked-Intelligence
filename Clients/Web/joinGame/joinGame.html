@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join game</title>
+    <link href="joinGame.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Join Game</h1>
+    </header>
+    <main>
+      <form name="join-game-form" method="dialog">
+        <div>
+          <label for="username">Username</label>
+          <input
+            name="username"
+            type="text"
+            placeholder="username"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="server-ip">IP Address</label>
+          <input
+            name="server-ip"
+            type="text"
+            placeholder="server ip"
+            value="localhost"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="server-port">Port</label>
+          <input
+            name="server-port"
+            type="number"
+            min="0"
+            max="65535"
+            value="9000"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="game-id">Game ID</label>
+          <input
+            name="game-id"
+            type="text"
+            placeholder="game id"
+            required
+          />
+        </div>
+
+        <div>
+          <button onclick="validateForm()">Join Game</button>
+        </div>
+      </form>
+      <dialog id="waiting-dialog" closedby="none">
+        <p id="waiting-dialog-text">Connecting to server...</p>
+        <button onclick="cancelConnection()">Cancel</button>
+      </dialog>
+    </main>
+    <script src="joinGame.js"></script>
+  </body>
+</html>
