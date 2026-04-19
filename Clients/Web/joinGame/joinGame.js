@@ -93,6 +93,9 @@ function messageHandler(event) {
   if (type == "JOIN_GAME") {
     player_id = parseInt(content["id"]);
     setWaitingDialogText("Your username is " + username + "\r\nWaiting for the game to start...");
+  } else if (type == "GAME_CANCELLED") {
+    setWaitingDialogText("The game has been cancelled");
+    connected = false;
   }
 }
 

@@ -65,6 +65,8 @@ public class DataManager {
 			responses = handleJoinGame(sender, content);
 		} else if (msgType.equalsIgnoreCase("LEAVE_GAME")) {
 			responses = handleLeaveGame(sender, content);
+		} else if (msgType.equalsIgnoreCase("CANCEL_GAME")) {
+			responses = handleCancelGame(sender, content);
 		} else {
 			// if the message is not recognized => fail to process message
 			return false;
@@ -156,5 +158,26 @@ public class DataManager {
 
 		System.err.println("Got an invalid player id " + request.id + " in a LEAVE_GAME request");
 		return empty_list;
+	}
+
+	private static Message[] handleCancelGame(WebSocketClient sender, String payload) {
+		String game_id = JSONParser.parseCANCEL_GAME(payload);
+		Message[] empty_list = {};
+		if (game_id == null) {
+			System.err.println("Failed to parse a CANCEL_GAME request (" + payload + ")");
+			return empty_list;
+		}
+
+		if (!games.containsKey(game_id)) {
+			System.err.println("Got an invalid game id " + game_id + " in a CANCEL_GAME request");
+			return empty_list;
+		}
+
+		Game game = games.remove(game_id);
+		Message[] responses = new Message[game.players.size()];
+		for (int i = 0; i < responses.length; i++) {
+			responses[i] = new Message("GAME_CANCELLED", Collections.emptyMap(), game.players.get(i).socket);
+		}
+		return responses;
 	}
 }

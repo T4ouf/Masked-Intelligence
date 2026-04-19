@@ -137,7 +137,16 @@ function connectToServer(ip_addr, port, form) {
 }
 
 function cancelConnection() {
-  // FIXME: send a CANCEL_GAME message
+  if (connected) {
+    let message = JSON.stringify({
+      message_type: "CANCEL_GAME",
+      content: {
+        game_id: game_id,
+      },
+    });
+
+    ws.send(message);
+  }
   ws.close();
   connected = false;
   game_id = "";

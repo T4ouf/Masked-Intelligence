@@ -96,6 +96,28 @@ public abstract class JSONParser {
 
 	}
 
+	public static String parseCANCEL_GAME(String msg) {
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			Map<String, Object> dataMap = (Map<String, Object>) mapper.readValue(msg, Map.class);
+
+			return (String) dataMap.get("game_id");
+
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			return null;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
 
 		String msg = "{\"message_type\":\"CREATE_GAME\",\"content\":{\"android_turn_duration\":120,\"hunter_turn_duration\":120,\"n_ai\":1,\"n_android\":1,\"n_hunter\":1}}";
