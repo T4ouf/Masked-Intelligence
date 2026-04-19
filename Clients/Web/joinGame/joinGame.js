@@ -14,7 +14,7 @@ function validateIPv4Address(ip_addr = "") {
   }
 
   for (let component in components) {
-    const digit = parseInt(component)
+    const digit = parseInt(component);
     if (digit == NaN || digit < 0 || digit > 255) {
       return false;
     }
@@ -54,7 +54,11 @@ function validateIPv6Address(ip_addr = "") {
 }
 
 function validateIp(ip_addr) {
-  return validateIPv4Address(ip_addr) || validateIPv6Address(ip_addr) || ip_addr == "localhost";
+  return (
+    validateIPv4Address(ip_addr) ||
+    validateIPv6Address(ip_addr) ||
+    ip_addr == "localhost"
+  );
 }
 
 function setWaitingDialogText(text) {
@@ -68,9 +72,9 @@ function decodeJSONMessage(message) {
     return JSON.stringify({
       message_type: "PARSE_ERROR",
       content: {
-        reason: message.message
-      }
-    })
+        reason: message.message,
+      },
+    });
   }
 }
 
@@ -79,9 +83,11 @@ function messageHandler(event) {
 
   const message = decodeJSONMessage(event.data);
   const type = message["message_type"];
-  const content = message["content"]
+  const content = message["content"];
   if (type == "PARSE_ERROR") {
-    setWaitingDialogText("Failed to parse a message from the server: " + content["reason"]);
+    setWaitingDialogText(
+      "Failed to parse a message from the server: " + content["reason"]
+    );
     ws.close();
     return;
   } else if (type == "ERROR") {
@@ -92,7 +98,9 @@ function messageHandler(event) {
 
   if (type == "JOIN_GAME") {
     player_id = parseInt(content["id"]);
-    setWaitingDialogText("Your username is " + username + "\r\nWaiting for the game to start...");
+    setWaitingDialogText(
+      "Your username is " + username + "\r\nWaiting for the game to start..."
+    );
   } else if (type == "GAME_CANCELLED") {
     setWaitingDialogText("The game has been cancelled");
     connected = false;
@@ -105,10 +113,11 @@ function connectToServer(ip_addr, port, form) {
   game_id = form["game-id"].value;
   username = form["username"].value;
   const message = JSON.stringify({
-    message_type: "JOIN_GAME", content: {
+    message_type: "JOIN_GAME",
+    content: {
       game_id: game_id,
       username: username,
-    }
+    },
   });
 
   ws = new WebSocket("ws://" + ip_addr + ":" + port);
@@ -130,10 +139,11 @@ function connectToServer(ip_addr, port, form) {
 function cancelConnection() {
   if (connected) {
     const message = JSON.stringify({
-      message_type: "LEAVE_GAME", content: {
-	game_id: game_id,
-	id: player_id,
-      }
+      message_type: "LEAVE_GAME",
+      content: {
+        game_id: game_id,
+        id: player_id,
+      },
     });
     ws.send(message);
   }

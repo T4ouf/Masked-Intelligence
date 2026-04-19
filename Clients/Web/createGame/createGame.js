@@ -14,7 +14,7 @@ function validateIPv4Address(ip_addr = "") {
   }
 
   for (let component in components) {
-    const digit = parseInt(component)
+    const digit = parseInt(component);
     if (digit == NaN || digit < 0 || digit > 255) {
       return false;
     }
@@ -54,7 +54,11 @@ function validateIPv6Address(ip_addr = "") {
 }
 
 function validateIp(ip_addr) {
-  return validateIPv4Address(ip_addr) || validateIPv6Address(ip_addr) || ip_addr == "localhost";
+  return (
+    validateIPv4Address(ip_addr) ||
+    validateIPv6Address(ip_addr) ||
+    ip_addr == "localhost"
+  );
 }
 
 function setWaitingDialogText(text) {
@@ -68,9 +72,9 @@ function decodeJSONMessage(message) {
     return JSON.stringify({
       message_type: "PARSE_ERROR",
       content: {
-        reason: message.message
-      }
-    })
+        reason: message.message,
+      },
+    });
   }
 }
 
@@ -79,9 +83,11 @@ function messageHandler(event) {
 
   const message = decodeJSONMessage(event.data);
   const type = message["message_type"];
-  const content = message["content"]
+  const content = message["content"];
   if (type == "PARSE_ERROR") {
-    setWaitingDialogText("Failed to parse a message from the server: " + content["reason"]);
+    setWaitingDialogText(
+      "Failed to parse a message from the server: " + content["reason"]
+    );
     ws.close();
     return;
   } else if (type == "ERROR") {
@@ -98,7 +104,15 @@ function messageHandler(event) {
   } else if (type == "PLAYER_LEFT") {
     connected_players--;
   }
-  setWaitingDialogText("The game id is " + game_id + "\r\nWaiting for players to join (" + connected_players + "/" + max_players + ")");
+  setWaitingDialogText(
+    "The game id is " +
+      game_id +
+      "\r\nWaiting for players to join (" +
+      connected_players +
+      "/" +
+      max_players +
+      ")"
+  );
 }
 
 function connectToServer(ip_addr, port, form) {
@@ -111,13 +125,14 @@ function connectToServer(ip_addr, port, form) {
   const android_turn_duration = parseInt(form["android-turn-duration"].value);
   max_players = nb_hunters + nb_androids;
   const message = JSON.stringify({
-    message_type: "CREATE_GAME", content: {
+    message_type: "CREATE_GAME",
+    content: {
       n_hunter: nb_hunters,
       n_android: nb_androids,
       n_ai: nb_ais,
       hunter_turn_duration: hunter_turn_duration,
-      android_turn_duration: android_turn_duration
-    }
+      android_turn_duration: android_turn_duration,
+    },
   });
 
   ws = new WebSocket("ws://" + ip_addr + ":" + port);
