@@ -91,6 +91,12 @@ window.onload = function () {
   // FIXME: remove later, only there for debugging purposes
   console.log(searchParams);
 
+  // For development purposes, allow to see the dashboard without joining a game
+  if (searchParams.has("test")) {
+    waiting_dialog.close();
+    return;
+  }
+
   for (let key of ["game_id", "username", "player_id", "server_ip", "server_port"]) {
     if (!searchParams.has(key)) {
       console.error("missing required parameter " + key);
