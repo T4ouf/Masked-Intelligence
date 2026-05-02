@@ -1,6 +1,7 @@
 package websocketServer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import game.Game;
 import game.Player;
 import utils.JSONParser;
 import utils.JoinGameRequest;
+import utils.JoinStartedGameRequest;
 import utils.LeaveGameRequest;
 
 public class DataManager {
@@ -22,7 +24,7 @@ public class DataManager {
 		public WebSocketClient recipient = null;
 		public HashMap<String, Object> message = new HashMap<>();
 
-		public Message(String type, Map<String, Object> content, WebSocketClient recipient) {
+		public <T> Message(String type, T content, WebSocketClient recipient) {
 			this.recipient = recipient;
 			message.put("message_type", type);
 			message.put("content", content);
@@ -67,6 +69,10 @@ public class DataManager {
 			responses = handleLeaveGame(sender, content);
 		} else if (msgType.equalsIgnoreCase("CANCEL_GAME")) {
 			responses = handleCancelGame(sender, content);
+		} else if (msgType.equalsIgnoreCase("START_GAME")) {
+			responses = handleStartGame(sender, content);
+		} else if (msgType.equalsIgnoreCase("JOIN_STARTED_GAME")) {
+			responses = handleJoinStartedGame(sender, content);
 		} else {
 			// if the message is not recognized => fail to process message
 			return false;
@@ -125,8 +131,7 @@ public class DataManager {
 			}
 		}
 
-		// FIXME: add player type
-		Player player = new Player(request.username, "");
+		Player player = new Player(request.username, game.getRandomRole());
 		player.socket = sender;
 		game.players.add(player);
 
@@ -151,9 +156,16 @@ public class DataManager {
 		}
 
 		Game game = games.get(request.game_id);
-		if (game.players.removeIf(p -> p.id == request.id)) {
-			return createResponses(new Message("PLAYER_LEFT", Collections.singletonMap("id", request.id),
-					game.GameMaster.socket));
+		for (int i = 0; i < game.players.size(); i++) {
+			Player p = game.players.get(i);
+			if (p.id == request.id) {
+				game.players.remove(p);
+				// FIXME: make the player's role available again
+				return createResponses(
+						new Message("PLAYER_LEFT", Collections.singletonMap("id", request.id),
+								game.GameMaster.socket));
+			}
+
 		}
 
 		System.err.println("Got an invalid player id " + request.id + " in a LEAVE_GAME request");
@@ -176,8 +188,101 @@ public class DataManager {
 		Game game = games.remove(game_id);
 		Message[] responses = new Message[game.players.size()];
 		for (int i = 0; i < responses.length; i++) {
-			responses[i] = new Message("GAME_CANCELLED", Collections.emptyMap(), game.players.get(i).socket);
+			responses[i] = new Message("GAME_CANCELLED", Collections.emptyMap(),
+					game.players.get(i).socket);
 		}
 		return responses;
+	}
+
+	private static Message[] handleStartGame(WebSocketClient sender, String payload) {
+		String game_id = JSONParser.parseSTART_GAME(payload);
+		Message[] empty_list = {};
+		if (game_id == null) {
+			System.err.println("Failed to parse a START_GAME request (" + payload + ")");
+			return empty_list;
+		}
+
+		if (!games.containsKey(game_id)) {
+			System.err.println("Got an invalid game id " + game_id + " in a START_GAME request");
+			return empty_list;
+		}
+
+		Game game = games.get(game_id);
+		game.GameMaster.socket = sender;
+		Message[] responses = new Message[game.players.size()];
+		for (int i = 0; i < game.players.size(); i++) {
+			Player player = game.players.get(i);
+			responses[i] = new Message("START_GAME",
+					Collections.singletonMap("role", player.playerType.toString()),
+					player.socket);
+			player.socket = null;
+
+		}
+
+		return responses;
+	}
+
+	private static Message[] handleJoinStartedGame(WebSocketClient sender, String payload) {
+		JoinStartedGameRequest request = JSONParser.parseJOIN_STARTED_GAME(payload);
+		Message[] empty_list = {};
+		if (request == null) {
+			System.err.println("Failed to parse a JOIN_STARTED_GAME request (" + payload + ")");
+			return empty_list;
+		}
+
+		if (!games.containsKey(request.game_id)) {
+			System.err.println("Got an invalid game id " + request.game_id
+					+ " in a JOIN_STARTED_GAME request");
+			return empty_list;
+		}
+
+		Game game = games.get(request.game_id);
+
+		for (int i = 0; i < game.players.size(); i++) {
+			Player player = game.players.get(i);
+			if (player.id != request.player_id) {
+				continue;
+			}
+
+			if (player.socket != null) {
+				return createResponses(new Message("ERROR",
+						Collections.singletonMap("reason",
+								"A player with id " + request.player_id
+										+ " has already joined the game "
+										+ request.game_id),
+						sender));
+			}
+
+			player.socket = sender;
+			Message player_response = new Message("JOIN_STARTED_GAME", Collections.emptyMap(), sender);
+			ArrayList<HashMap<String, Object>> player_infos = new ArrayList<>();
+			for (Player p : game.players) {
+				// Not all players have joined, we don't send a notification to the GM yet
+				if (p.socket == null) {
+					return createResponses(player_response);
+				}
+
+				HashMap<String, Object> player_info = new HashMap<>();
+				player_info.put("username", player.username);
+				player_info.put("role", player.playerType.toString());
+				player_infos.add(player_info);
+			}
+
+			// FIXME: The implementation in WebSocketClient.java doesn't support messages
+			// longer than 126 bytes
+			// Sending the player infos goes beyond that limit.
+			player_infos.clear();
+
+			// if we reach this point, all players are connected, we can send a START_GAME
+			// response to the GM
+			return createResponses(player_response,
+					new Message("START_GAME", player_infos, game.GameMaster.socket));
+		}
+
+		return createResponses(new Message("ERROR",
+				Collections.singletonMap("reason",
+						"No player with id " + request.player_id
+								+ " exists in the game " + request.game_id),
+				sender));
 	}
 }

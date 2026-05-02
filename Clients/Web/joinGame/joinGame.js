@@ -5,6 +5,8 @@ var connected = false;
 var game_id = "";
 var username = "";
 var player_id = -1;
+var server_ip = "";
+var server_port = -1;
 
 function validateIPv4Address(ip_addr = "") {
   const components = ip_addr.split(".");
@@ -61,6 +63,15 @@ function validateIp(ip_addr) {
   );
 }
 
+function addURIParameters(url, params) {
+  let sep = "#";
+  for (let key in params) {
+    url += sep + key + "=" + encodeURIComponent(params[key]);
+    sep = "&";
+  }
+  return url;
+}
+
 function setWaitingDialogText(text) {
   waiting_dialog_text.textContent = text;
 }
@@ -104,6 +115,22 @@ function messageHandler(event) {
   } else if (type == "GAME_CANCELLED") {
     setWaitingDialogText("The game has been cancelled");
     connected = false;
+  } else if (type == "START_GAME") {
+    const parameters = {
+      game_id: game_id,
+      username: username,
+      player_id: player_id,
+      server_ip: server_ip,
+      server_port: server_port,
+    };
+
+    // FIXME: Go to the appropriate page depending on the player's role
+    const role = content["role"];
+
+    window.location = addURIParameters(
+      "../hunterDashboard/hunterDashboard.html",
+      parameters
+    );
   }
 }
 
@@ -162,11 +189,11 @@ function validateForm() {
     return;
   }
 
-  const ip_addr = form["server-ip"].value;
-  if (!validateIp(ip_addr)) {
-    alert("Invalid IP address " + ip_addr);
+  server_ip = form["server-ip"].value;
+  if (!validateIp(server_ip)) {
+    alert("Invalid IP address " + server_ip);
   } else {
-    const port = parseInt(form["server-port"].value);
-    connectToServer(ip_addr, port, form);
+    server_port = parseInt(form["server-port"].value);
+    connectToServer(server_ip, server_port, form);
   }
 }

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join game</title>
+    <link href="gmDashboard.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <header>
+      <h1>GM Dashboard</h1>
+    </header>
+    <main>
+      <p id="todo"></p>
+    </main>
+    <dialog id="waiting-dialog" closedby="none">
+      <p id="waiting-dialog-text">Connecting to server...</p>
+      <button id="return-to-menu" onclick="returnToMenu()" hidden>
+        Go back to the main menu
+      </button>
+    </dialog>
+    <script src="gmDashboard.js"></script>
+  </body>
+</html>

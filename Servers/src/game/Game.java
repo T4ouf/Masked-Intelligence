@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
 
@@ -34,6 +35,29 @@ public class Game {
 		this.voteAmount = voteAmount;
 	}
 	
+	public String getRandomRole() {
+		int nAndroids = androidMaxLimit - androidNumber;
+		int nHunters = hunterMaxLimit - hunterNumber;
+		if (nAndroids == 0 && nHunters == 0) { return null; }
+
+		ArrayList<String> roles = new ArrayList<>();
+		for (int i = 0; i < nAndroids; i++) {
+			roles.add("android");
+		}
+		for (int i = 0; i < nHunters; i++) {
+			roles.add("hunter");
+		}
+
+		Random rand = new Random();
+		String role = roles.get(rand.nextInt(roles.size()));
+		if (role == "android") {
+			androidNumber++;
+		} else {
+			hunterNumber++;
+		}
+		return role;
+	}
+
 	public boolean registerPlayer(String role) {
 		
 		if(role.equalsIgnoreCase("android") && androidNumber<androidMaxLimit) {

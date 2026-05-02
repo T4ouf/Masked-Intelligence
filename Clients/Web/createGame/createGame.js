@@ -1,5 +1,8 @@
 const waiting_dialog = document.getElementById("waiting-dialog");
+const start_game_button = document.getElementById("start-game-button");
 const waiting_dialog_text = document.getElementById("waiting-dialog-text");
+var server_ip = null;
+var server_port = null;
 var ws = null;
 var connected = false;
 var max_players = 0;
@@ -61,6 +64,15 @@ function validateIp(ip_addr) {
   );
 }
 
+function addURIParameters(url, params) {
+  let sep = "#";
+  for (let key in params) {
+    url += sep + key + "=" + encodeURIComponent(params[key]);
+    sep = "&";
+  }
+  return url;
+}
+
 function setWaitingDialogText(text) {
   waiting_dialog_text.textContent = text;
 }
@@ -100,9 +112,12 @@ function messageHandler(event) {
     game_id = content["game_id"];
   } else if (type == "PLAYER_JOINED") {
     connected_players++;
-    // TODO: add a button to start the game when connected_players == max_players
+    if (connected_players == max_players) {
+      start_game_button.hidden = false;
+    }
   } else if (type == "PLAYER_LEFT") {
     connected_players--;
+    start_game_button.hidden = true;
   }
   setWaitingDialogText(
     "The game id is " +
@@ -138,6 +153,8 @@ function connectToServer(ip_addr, port, form) {
   ws = new WebSocket("ws://" + ip_addr + ":" + port);
   ws.addEventListener("open", (event) => {
     connected = true;
+    server_ip = ip_addr;
+    server_port = port;
     console.log("connection open, sending ", message);
     ws.send(message);
   });
@@ -167,6 +184,15 @@ function cancelConnection() {
   game_id = "";
   connected_players = 0;
   waiting_dialog.close();
+}
+
+function startGame() {
+  const parameters = {
+    game_id: game_id,
+    server_ip: server_ip,
+    server_port: server_port,
+  };
+  window.location = addURIParameters("../gmDashboard/gmDashboard.html", parameters);
 }
 
 function validateForm() {
