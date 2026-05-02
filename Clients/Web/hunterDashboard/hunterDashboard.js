@@ -44,19 +44,6 @@ function setWaitingDialogText(text, is_error) {
   }
 }
 
-function decodeJSONMessage(message) {
-  try {
-    return JSON.parse(message);
-  } catch (e) {
-    return JSON.stringify({
-      message_type: "PARSE_ERROR",
-      content: {
-        reason: message.message,
-      },
-    });
-  }
-}
-
 function messageHandler(event) {
   console.log("Received ", event.data);
 
