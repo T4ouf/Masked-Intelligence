@@ -1,11 +1,11 @@
 package utils;
 
 public class LeaveGameRequest {
-	public String game_id;
+	public String gameId;
 	public int id;
 
-	public LeaveGameRequest(String game_id, int id) {
-		this.game_id = game_id;
+	public LeaveGameRequest(String gameId, int id) {
+		this.gameId = gameId;
 		this.id = id;
 	}
 }
