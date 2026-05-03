@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import game.Game;
 import game.Player;
 import game.PlayerType;
-import utils.JSONParser;
 import utils.JoinGameRequest;
 import utils.JoinStartedGameRequest;
 import utils.LeaveGameRequest;
@@ -46,15 +45,22 @@ public class DataManager {
 			System.err.println("Invalid JSON !\n" + msg);
 			return false;
 		}
-		String msgType = (String) dataMap.get("message_type");
+		MessageType msgType = MessageType.fromString((String) dataMap.get("message_type"));
+		if (msgType == null) {
+			System.err.println("Got an unknown message type " + (String) dataMap.get("message_type"));
+			return false;
+		}
 
 		System.out.println("Message Type : " + msgType);
 
+		// FIXME: we don't want to pretty-print the JSON when sending it over the
+		// network
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
-		String content = "";
+		Object content = null;
 		try {
-			content = ow.writeValueAsString(dataMap.get("content"));
+			String stringContent = ow.writeValueAsString(dataMap.get("content"));
+			content = msgType.parse(stringContent);
 		} catch (JsonProcessingException e) {
 			// should never go here (exceptions are already catch earlier)
 			e.printStackTrace();
@@ -62,56 +68,62 @@ public class DataManager {
 		System.out.println(content);
 
 		Message[] responses = null;
-		if (msgType.equalsIgnoreCase("CREATE_GAME")) {
-			responses = handleCreateGame(sender, content);
-		} else if (msgType.equalsIgnoreCase("JOIN_GAME")) {
-			responses = handleJoinGame(sender, content);
-		} else if (msgType.equalsIgnoreCase("LEAVE_GAME")) {
-			responses = handleLeaveGame(sender, content);
-		} else if (msgType.equalsIgnoreCase("CANCEL_GAME")) {
-			responses = handleCancelGame(sender, content);
-		} else if (msgType.equalsIgnoreCase("START_GAME")) {
-			responses = handleStartGame(sender, content);
-		} else if (msgType.equalsIgnoreCase("JOIN_STARTED_GAME")) {
-			responses = handleJoinStartedGame(sender, content);
-		} else {
-			// if the message is not recognized => fail to process message
-			return false;
+		switch (msgType) {
+			case CANCEL_GAME:
+				responses = handleCancelGame(sender, (String) content);
+				break;
+			case CREATE_GAME:
+				responses = handleCreateGame(sender, (Game) content);
+				break;
+			case JOIN_GAME:
+				responses = handleJoinGame(sender, (JoinGameRequest) content);
+				break;
+			case JOIN_STARTED_GAME:
+				responses = handleJoinStartedGame(sender, (JoinStartedGameRequest) content);
+				break;
+			case LEAVE_GAME:
+				responses = handleLeaveGame(sender, (LeaveGameRequest) content);
+				break;
+			case START_GAME:
+				responses = handleStartGame(sender, (String) content);
+				break;
+			default:
+				return false;
+
 		}
 
-		if (responses != null) {
-			try {
-				for (Message response : responses) {
-					response.recipient.sendMessageTo(ow.writeValueAsString(response.message), true);
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if (responses == null) {
+			return true;
 		}
+
+		try {
+			for (Message response : responses) {
+				response.recipient.sendMessageTo(ow.writeValueAsString(response.message), true);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return true;
 	}
 
-	private static Message[] handleCreateGame(WebSocketClient sender, String payload) {
-		Game newGame = JSONParser.parseCREATE_GAME(payload);
-		String type = "";
-		HashMap<String, Object> content_ = new HashMap<>();
-		if (newGame != null) {
-			Player gm = new Player("GM", PlayerType.GAME_MASTER);
-			gm.socket = sender;
-			newGame.GameMaster = gm;
-			games.put(newGame.id, newGame);
-			type = "CREATE_GAME";
-			content_.put("game_id", newGame.id);
-		} else {
-			type = "ERROR";
-			content_.put("reason", "Failed to parse a CREATE_GAME request");
+	private static Message[] handleCreateGame(WebSocketClient sender, Game newGame) {
+		if (newGame == null) {
+			return createResponses(new Message("ERROR",
+					Collections.singletonMap("reason", "Failed to parse a CREATE_GAME request"),
+					sender));
 		}
-		return createResponses(new Message(type, content_, sender));
+
+		Player gm = new Player("GM", PlayerType.GAME_MASTER);
+		gm.socket = sender;
+		newGame.GameMaster = gm;
+		games.put(newGame.id, newGame);
+		return createResponses(
+				new Message("CREATE_GAME", Collections.singletonMap("game_id", newGame.id), sender));
 	}
 
-	private static Message[] handleJoinGame(WebSocketClient sender, String payload) {
-		JoinGameRequest request = JSONParser.parseJOIN_GAME(payload);
+	private static Message[] handleJoinGame(WebSocketClient sender, JoinGameRequest request) {
 		if (request == null) {
 			return createResponses(new Message("ERROR",
 					Collections.singletonMap("reason",
@@ -143,17 +155,14 @@ public class DataManager {
 				new Message("PLAYER_JOINED", player_joined_content, game.GameMaster.socket));
 	}
 
-	private static Message[] handleLeaveGame(WebSocketClient sender, String payload) {
-		LeaveGameRequest request = JSONParser.parseLEAVE_GAME(payload);
-		Message[] empty_list = {};
+	private static Message[] handleLeaveGame(WebSocketClient sender, LeaveGameRequest request) {
 		if (request == null) {
-			System.err.println("Failed to parse a LEAVE_GAME request (" + payload + ")");
-			return empty_list;
+			return null;
 		}
 
 		if (!games.containsKey(request.game_id)) {
 			System.err.println("Got an invalid game id " + request.game_id + " in a LEAVE_GAME request");
-			return empty_list;
+			return null;
 		}
 
 		Game game = games.get(request.game_id);
@@ -170,20 +179,17 @@ public class DataManager {
 		}
 
 		System.err.println("Got an invalid player id " + request.id + " in a LEAVE_GAME request");
-		return empty_list;
+		return null;
 	}
 
-	private static Message[] handleCancelGame(WebSocketClient sender, String payload) {
-		String game_id = JSONParser.parseCANCEL_GAME(payload);
-		Message[] empty_list = {};
+	private static Message[] handleCancelGame(WebSocketClient sender, String game_id) {
 		if (game_id == null) {
-			System.err.println("Failed to parse a CANCEL_GAME request (" + payload + ")");
-			return empty_list;
+			return null;
 		}
 
 		if (!games.containsKey(game_id)) {
 			System.err.println("Got an invalid game id " + game_id + " in a CANCEL_GAME request");
-			return empty_list;
+			return null;
 		}
 
 		Game game = games.remove(game_id);
@@ -195,17 +201,14 @@ public class DataManager {
 		return responses;
 	}
 
-	private static Message[] handleStartGame(WebSocketClient sender, String payload) {
-		String game_id = JSONParser.parseSTART_GAME(payload);
-		Message[] empty_list = {};
+	private static Message[] handleStartGame(WebSocketClient sender, String game_id) {
 		if (game_id == null) {
-			System.err.println("Failed to parse a START_GAME request (" + payload + ")");
-			return empty_list;
+			return null;
 		}
 
 		if (!games.containsKey(game_id)) {
 			System.err.println("Got an invalid game id " + game_id + " in a START_GAME request");
-			return empty_list;
+			return null;
 		}
 
 		Game game = games.get(game_id);
@@ -223,18 +226,15 @@ public class DataManager {
 		return responses;
 	}
 
-	private static Message[] handleJoinStartedGame(WebSocketClient sender, String payload) {
-		JoinStartedGameRequest request = JSONParser.parseJOIN_STARTED_GAME(payload);
-		Message[] empty_list = {};
+	private static Message[] handleJoinStartedGame(WebSocketClient sender, JoinStartedGameRequest request) {
 		if (request == null) {
-			System.err.println("Failed to parse a JOIN_STARTED_GAME request (" + payload + ")");
-			return empty_list;
+			return null;
 		}
 
 		if (!games.containsKey(request.game_id)) {
 			System.err.println("Got an invalid game id " + request.game_id
 					+ " in a JOIN_STARTED_GAME request");
-			return empty_list;
+			return null;
 		}
 
 		Game game = games.get(request.game_id);
