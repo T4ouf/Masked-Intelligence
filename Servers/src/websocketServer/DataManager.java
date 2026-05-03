@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import game.Game;
 import game.Player;
+import game.PlayerType;
 import utils.JSONParser;
 import utils.JoinGameRequest;
 import utils.JoinStartedGameRequest;
@@ -96,7 +97,7 @@ public class DataManager {
 		String type = "";
 		HashMap<String, Object> content_ = new HashMap<>();
 		if (newGame != null) {
-			Player gm = new Player("GM", "gm");
+			Player gm = new Player("GM", PlayerType.GAME_MASTER);
 			gm.socket = sender;
 			newGame.GameMaster = gm;
 			games.put(newGame.id, newGame);
@@ -160,7 +161,7 @@ public class DataManager {
 			Player p = game.players.get(i);
 			if (p.id == request.id) {
 				game.players.remove(p);
-				// FIXME: make the player's role available again
+				game.removeRole(p.playerType);
 				return createResponses(
 						new Message("PLAYER_LEFT", Collections.singletonMap("id", request.id),
 								game.GameMaster.socket));
