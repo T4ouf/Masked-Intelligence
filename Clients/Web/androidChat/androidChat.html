@@ -29,7 +29,6 @@
       <main class="content">
         <section id="chatBox"></section>
         <div class="textInputDiv">
-          <!-- TODO: not use form, just input button -->
           <textarea
             id="textInput"
             name="textInput"
@@ -40,6 +39,8 @@
         </div>
       </main>
     </div>
-    <script type="module" src="androidChat.js" defer></script>
+    <!-- showdown is a UMD bundle, not an ES module. Adding type=module breaks the export -->
+    <script src="../lib/showdown/showdown2.0.min.js"></script>
+    <script type="module" src="androidChat.js"></script>
   </body>
 </html>
