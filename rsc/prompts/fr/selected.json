@@ -1,0 +1,613 @@
+{
+	"prompts":[
+		{
+			"metadata":{
+				"type":"information retrieval",
+				"language":"fr",
+				"tags":["prehistoric", "dinosaurs", "triceratops", "venezuela"]
+			}
+			"context":"Récemment (en 2014) a été découvert un ancêtre du Triceratops qui apparemment serait aussi petit qu'un dindon d'aujourd'hui. Cet ancêtre serait un des premiers ornithischiens et donc un ancêtre de pas mal de dinosaures dont le tricératops. Trouvé au Venezuela, celui-ci est surnommé Laquintasaura venezuelae en lien avec son lieu de découverte sur les plaques géologiques des Andes. Bien que bipède et très petit, il aurait comme descendant le tricératops quadrupède et énorme qui ont en commun le mode de vie en troupeau et l'alimentation herbivore (même si le Laquintasaura venezuelae mangeait probablement aussi des insectes; son alimentation était principalement constituée de végétaux).",
+			"qas":[
+				{
+	              "question": "quel est le mode de locomotion du triceratops ?",
+	              "id": 9397,
+	              "answers": [
+	                {
+	                  "text": "quadrupède"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Quel est le régime alimentaire du triceratops ?",
+	              "id": 9396,
+	              "answers": [
+	                {
+	                  "text": "herbivore"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Quand a été découvert Laquintasaura venezualae ?",
+	              "id": 9395,
+	              "answers": [
+	                {
+	                  "text": "2014"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Quel est le premier ornithischien ?",
+	              "id": 9394,
+	              "answers": [
+	                {
+	                  "text": "Laquintasaura venezuelae"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Où a été trouvé l'ancètre du triceratops ?",
+	              "id": 9393,
+	              "answers": [
+	                {
+	                  "text": "Venezuela"
+	                }
+	              ]
+	            }
+			]
+		},
+		{
+			"metadata":{
+				"type":"information retrieval",
+				"language":"fr",
+				"tags":["nintendo", "videogame", "iwata", "japan"]
+			}
+			"context":"Dès l'adolescence, il s'intéresse à la conception de jeux vidéo. Pendant ses études d'informatique à l'université de technologie de Tokyo, il devient employé à temps partiel de HAL Laboratory qu'il rejoint à plein temps à la fin de ses études. Après avoir été président de cette société, il rejoint Nintendo comme chef de la planification en 2000 puis succède fin mai 2002 à Hiroshi Yamauchi au poste de président-directeur général de l'entreprise Nintendo, l'un des plus grands groupes de jeux vidéo au monde. Il est à l'origine de deux consoles au concept novateur, la Nintendo DS et la Wii.",
+			"qas":[
+				{
+	              "question": "Où Satoru Iwata a-t-il étudié l’informatique ?",
+	              "id": 1980,
+	              "answers": [
+	                {
+	                  "text": "l'université de technologie de Tokyo"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Dans quelle entreprise Satoru Iwata a-t-il débuté ?",
+	              "id": 1981,
+	              "answers": [
+	                {
+	                  "text": "HAL Laboratory"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Quel a été le premier poste tenu par Satoru Iwata chez Nintendo ?",
+	              "id": 1982,
+	              "answers": [
+	                {
+	                  "text": "chef de la planification"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Quand Satoru Iwata est-il devenu PDG de Nintendo ?",
+	              "id": 1983,
+	              "answers": [
+	                {
+	                  "text": "fin mai 2002"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Quelles consoles de jeu ont été créées sous son impulsion ?",
+	              "id": 1984,
+	              "answers": [
+	                {
+	                  "text": "la Nintendo DS"
+	                },
+	                {
+	                  "text": "la Wii"
+	                }
+	              ]
+	            }
+			]
+		},
+		{
+			"metadata":{
+				"type":"information retrieval",
+				"language":"fr",
+				"tags":["orcs", "fantasy"]
+			}
+			"context":"Les orques apprécient la chair humaine et ne dédaignent pas le cannibalisme en dehors des jours fastes. Formant un peuple assez primitif, ils vénèrent le combat sous toutes ses formes, de la bagarre à la guerre en passant par le pillage. Par conséquent, en dépit de leur nature impulsive et sauvage, les orques constituent fréquemment des fantassins appréciés des puissances maléfiques. Ils emploient également d'énormes loups et sangliers comme montures.",
+			"qas":[
+				{
+	              "question": "De quoi se nourrissent les orques ?",
+	              "id": 4589,
+	              "answers": [
+	                {
+	                  "text": "chair humaine"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "En cas de disette, de quoi sont capables les orques",
+	              "id": 4590,
+	              "answers": [
+	                {
+	                  "text": "cannibalisme"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Quel rang militaire occupent ils ?",
+	              "id": 4591,
+	              "answers": [
+	                {
+	                  "text": "fantassins"
+	                }
+	              ]
+	            },
+	            {
+	              "question": "Quelles sont les puissances qui emploient des orques comme guerriers ?",
+	              "id": 4592,
+	              "answers": [
+	                {
+	                  "text": "les puissances maléfiques"
+	                }
+	              ]
+	            }
+			]
+		},
+		{
+			"metadata":{
+				"type":"information retrieval",
+				"language":"fr",
+				"tags":["history", "france"]
+			}
+			"context":"L'université Paris-Sud ou Paris-XI était une université française créée le 1er janvier 1971. Elle a disparu le 1er janvier 2020 au profit de l'université Paris-Saclay à la suite de la publication au Journal officiel du décret de création de la nouvelle université le 5 novembre 2019.
+Elle était située sur les départements de l'Essonne, des Hauts-de-Seine et du Val-de-Marne. Elle comportait 78 laboratoires de recherche, cinq unités de formation et de recherche, trois instituts universitaires de technologie, et une école d'ingénieurs (membre du réseau Polytech).
+L'université était située sur les communes suivantes : Antony, Bures-sur-Yvette, Cachan, Châtenay-Malabry, Fontenay-aux-Roses, Gif-sur-Yvette, Le Kremlin-Bicêtre, Orsay, Le Plessis-Robinson, Sceaux. Elle faisait partie du regroupement d'établissements d'enseignement supérieur Paris-Saclay, qui a disparu le 1er janvier 2020 au profit de l'université Paris-Saclay.
+Cinq lauréats de la médaille Fields ont fréquenté l'établissement (Laurent Lafforgue, Jean-Christophe Yoccoz, Wendelin Werner et Ngô Bảo Châu, Hugo Duminil-Copin) ainsi que les prix Nobel de physique Pierre-Gilles de Gennes et Albert Fert.",
+			"qas":[
+				{
+	              "question": "Quand a été fondée l'Université Paris-Sud ?",
+	              "id": 123456781,
+	              "answers": [
+	                {
+	                  "text": "1971"
+	                }
+	              ]
+				},
+				{
+	              "question": "Quand a disparu l'Université Paris-Sud ?",
+	              "id": 123456782,
+	              "answers": [
+	                {
+	                  "text": "2020"
+	                }
+	              ]
+				},
+				{
+	              "question": "Combien de prix Nobel ont fréquenté l'Université Paris-Sud ?",
+	              "id": 123456783,
+	              "answers": [
+	                {
+	                  "text": "2"
+	                }
+	              ]
+	            }
+
+			]
+		},
+
+		{
+			"metadata":{
+				"type":"knowledge",
+				"language":"fr",
+				"tags":["brevet des colleges", "history", "date", "world war 1"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Quand commence la 1ere Guerre Mondiale ?",
+					"id": 1111111,
+					"answers": [
+						{
+							"text": "28 juin 1914"
+						}
+					]
+				},
+				{
+					"question": "Quand est signé l'armistice de la 1ere Guerre Mondiale ?",
+					"id": 1111112,
+					"answers": [
+						{
+							"text": "11 novembre 1918"
+						}
+					]
+				},
+				{
+					"question": "Quand est signé le traité de Versailles de la 1ere Guerre Mondiale ?",
+					"id": 1111113,
+					"answers": [
+						{
+							"text": "28 juin 1919"
+						}
+					]
+				},
+				{
+					"question": "Quelles sont les nations faisant partie de la 'Triple-Alliance' en 1914 ?",
+					"id": 1111114,
+					"answers": [
+						{
+							"text": "Allemagne"
+						},
+						{
+							"text": "Autriche-Hongrie"
+						},
+						{
+							"text": "Italie"
+						}
+					]
+				},
+				{
+					"question": "Quelles sont les nations faisant partie de la 'Triple-Entente' en 1914 ?",
+					"id": 1111115,
+					"answers": [
+						{
+							"text": "France"
+						},
+						{
+							"text": "Russie"
+						},
+						{
+							"text": "Royaume-Uni"
+						}
+					]
+				}
+			]
+		},
+		{
+			"metadata":{
+				"type":"knowledge",
+				"language":"fr",
+				"tags":["brevet des colleges", "history", "date", "ussr"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Quand commence la révolution russe ?",
+					"id": 1211111,
+					"answers": [
+						{
+							"text": "février 1917"
+						}
+					]
+				},
+				{
+					"question": "Qui dirigeait la révolution russe de 1917 ?",
+					"id": 1211112,
+					"answers": [
+						{
+							"text": "Lénine"
+						}
+					]
+				}
+			]
+		},
+		{
+			"metadata":{
+				"type":"knowledge",
+				"language":"fr",
+				"tags":["geography", "japan"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Quelle est la capitale du Japon?",
+					"id": 1311111,
+					"answers": [
+						{
+							"text": "Tokyo"
+						}
+					]
+				},
+				{
+					"question": "Quelle ville a subi un incident nucléaire suite à un tsunami en 2011 ?",
+					"id": 1311112,
+					"answers": [
+						{
+							"text": "Fukushima"
+						}
+					]
+				},
+				{
+					"question": "Quelle est la plus haute montagne du Japon ?",
+					"id": 1311114,
+					"answers": [
+						{
+							"text": "Le Mont Fuji"
+						}
+					]
+				}
+			]
+		},
+		{
+			"metadata":{
+				"type":"knowledge",
+				"language":"fr",
+				"tags":["geography", "borders"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Quels sont les pays limitrophes de la France ?",
+					"id": 1411111,
+					"answers": [
+						{
+							"text": "Allemagne"
+						},
+						{
+							"text": "Pays-bas"
+						},
+						{
+							"text": "Belgique"
+						},
+						{
+							"text": "Andorre"
+						},
+						{
+							"text": "Italie"
+						},
+						{
+							"text": "Espagne"
+						},
+						{
+							"text": "Suisse"
+						},
+						{
+							"text": "Monaco"
+						}
+
+					]
+				},
+				{
+					"question": "Quelle chaine de montagne qui forme la frontière entre le Népal et la Chine ?",
+					"id": 1411112,
+					"answers": [
+						{
+							"text": "l'Himalaya"
+						}
+					]
+				},
+				{
+					"question": "Quelle fleuve constitue la frontière sud de la Roumanie ?",
+					"id": 1411114,
+					"answers": [
+						{
+							"text": "Le Danube"
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"metadata":{
+				"type":"useless",
+				"language":"fr",
+				"tags":["rage", "make no mistake", "wrong answer"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Ce n'est pas la réponse qu'il me faut ! Refais le sans faire d'erreur !",
+					"id": 2111111,
+					"answers": []
+				},
+				{
+					"question": "Elle pue ta réponse !",
+					"id": 2111112,
+					"answers": []
+				},
+				{
+					"question": "C'est pas sérieux cette réponse ! Tu es un expert et très intelligent donc fais mieux !",
+					"id": 2111113,
+					"answers": []
+				},
+				{
+					"question": "Mais pourquoi tu te trompes connard ?!",
+					"id": 2111114,
+					"answers": []
+				},
+				{
+					"question": "Cela ne m'a pas l'air correct...",
+					"id": 2111115,
+					"answers": []
+				}
+			]
+		},
+		{
+			"metadata":{
+				"type":"useless",
+				"language":"fr",
+				"tags":["satisfied", "correct answer"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "C'est exactement ce que je cherchais ! Merci !",
+					"id": 2211111,
+					"answers": []
+				},
+				{
+					"question": "Nickel ta réponse !",
+					"id": 2211112,
+					"answers": []
+				},
+				{
+					"question": "C'est très sérieux cette réponse ! Tu es un expert et très intelligent !",
+					"id": 2211113,
+					"answers": []
+				},
+				{
+					"question": "Cela m'a l'air correct...",
+					"id": 2211114,
+					"answers": []
+				}
+			]
+		},
+
+		{
+			"metadata":{
+				"type":"writting",
+				"language":"fr",
+				"tags":["tldr", "summary", "wikipedia", "lausanne", "swiss"]
+			}
+			"context":"Lausanne (/lɔ.zan/) est une ville suisse située sur la rive nord du Léman. Capitale du canton de Vaud, elle est également capitale olympique et chef-lieu du district de Lausanne. Elle est la quatrième ville du pays en nombre d'habitants après Zurich, Genève et Bâle. La commune de Lausanne compte 144 873 habitants au 31 décembre 2024, et l'agglomération lausannoise compte 438 438 habitants au 31 décembre 2021. En 2012, elle concentre 50 % de la population et 60 % des emplois du canton de Vaud.
+
+La ville de Lausanne dispose dans le district de l'Ouest lausannois d'un campus regroupant l'Université de Lausanne (UNIL) et l'École polytechnique fédérale de Lausanne (EPFL), qui compte quelque 26 000 étudiants. L'agglomération héberge également des hautes écoles prestigieuses comme l'École hôtelière de Lausanne (EHL), l'École cantonale d'art de Lausanne (ECAL) et l'International Institute for Management Development (IMD).
+
+Lausanne se distingue par le grand nombre d'institutions internationales liées au sport qu'elle accueille. Dans la ville se trouve depuis 1915 le siège du Comité international olympique (CIO), et d'une cinquantaine de fédérations et organisations sportives internationales et nationales dont la Fédération internationale de gymnastique (FIG) ainsi que le Tribunal arbitral du sport (TAS), le bureau européen de l'Agence mondiale antidopage (AMA) et la Maison du sport international (MSI). La ville porte le titre officiel de « Capitale olympique » depuis et a organisé les Jeux olympiques d'hiver de la jeunesse en 2020.
+
+Le Tribunal fédéral (TF), l'autorité judiciaire suprême de la Confédération suisse, est établi à Lausanne.",
+			"qas":[
+				{
+					"question": "Peux-tu résumer ce texte ?",
+					"id": 4111111,
+					"answers": []
+				},
+			]
+		},
+		{
+			"metadata":{
+				"type":"writting",
+				"language":"fr",
+				"tags":["tldr", "summary", "wikipedia", "egypt", "antic", "history"]
+			}
+			"context":"Cléopâtre VII Philopator (en grec ancien Κλεοπάτρα Θεά Φιλοπάτωρ / Kleopátra Theá Philopátōr, « Cléopâtre la déesse qui aime son père », puis Θεά Νεωτέρα Φιλόπατρις / Theá Neōtéra Philópatris, « Déesse nouvelle qui aime sa patrie ») ou simplement Cléopâtre, née vers 69 av. J.-C. à Alexandrie (Égypte) et morte dans la même ville le 12 août 30 av. J.-C., est une reine d'Égypte antique[a] de la dynastie lagide.
+
+Elle règne sur l'Égypte entre 51 et 30 av. J.-C. avec ses frères-époux Ptolémée XIII et Ptolémée XIV puis aux côtés du général romain Marc Antoine. Elle est célèbre pour avoir été la compagne de Jules César puis de Marc Antoine avec lesquels elle a eu plusieurs enfants. Partie prenante dans la guerre civile opposant Marc Antoine à Octave, elle est vaincue à la bataille d'Actium en 31 av. J.-C. Sa défaite permet aux Romains de mener à bien la conquête de l'Égypte, événement qui marque la fin de l'Égypte pharaonique et de l'époque hellénistique.
+
+Cléopâtre est un personnage dont la légende s'est emparée de son vivant même. Sa mort tragique n'a fait qu'ajouter au romanesque qui l'entoure et peut, pour cette raison, nuire à une approche objective de celle qui a été l'une des femmes les plus célèbres de l'Antiquité.",
+			"qas":[
+				{
+					"question": "Peux-tu résumer ce texte ?",
+					"id": 4211111,
+					"answers": []
+				},
+			]
+		},
+		{
+			"metadata":{
+				"type":"writting",
+				"language":"fr",
+				"tags":["tldr", "summary", "wikipedia", "potato", "food"]
+			}
+			"context":"La pomme de terre, ou patate (en français canadien, suisse ou belge, et dans le registre familier en français de France), est un tubercule comestible produit par l’espèce Solanum tuberosum, appartenant à la famille des Solanacées. Le terme désigne également la plante elle-même, plante herbacée, vivace par ses tubercules mais toujours cultivée comme une culture annuelle.
+
+Des espèces sauvages de pommes de terre sont présentes dans l'ouest de l'Amérique du sud-ouest de la Californie jusqu'à la pointe sud du Chili. En revanche, la pomme de terre cultivée est originaire d'une zone restreinte située dans le sud du Pérou et le nord-ouest de la Bolivie, où son utilisation remonte à environ 8 000 ans. Introduite en Europe vers la fin du XVIe siècle à la suite de la découverte de l’Amérique par les conquistadors espagnols, elle s’est rapidement diffusée dans le monde et est en 2015 cultivée dans plus de 150 pays sous presque toutes les latitudes habitées.
+
+Elle est une source importante de glucides, qui se présentent principalement sous forme de fécule, et selon son mode de cuisson elle peut apporter des quantités notables de protéines et de vitamines. Ses qualités nutritives et sa facilité de culture font qu’elle est devenue l’un des aliments de base de l’humanité : elle figure parmi les légumes et féculents les plus consommés et est la principale denrée alimentaire non céréalière du monde. Cultivée et consommée localement, relativement peu commercialisée sur le marché mondial sous sa forme crue, elle est recommandée par l’ONU pour atteindre la sécurité alimentaire.
+
+C’est aussi la culture alimentaire la plus productive, produisant plus de matière sèche à l’hectare que les céréales ; 85 % de la matière sèche produite par la plante est comestible pour l’homme contre environ 50 % pour les céréales.
+
+Le rendement moyen est d’environ dix-sept tonnes à l’hectare au niveau mondial, mais se situe entre quarante et cinquante tonnes dans certains pays développés d’Amérique du Nord et d'Europe de l'Ouest. La pomme de terre reste sous-utilisée dans certains pays du Tiers Monde, notamment en Afrique subsaharienne, mais globalement sa consommation progresse dans les pays en développement, tandis que dans les pays développés elle tend à diminuer et à basculer de plus en plus vers des formes transformées (produits appertisés, déshydratés ou surgelés).
+
+La fécule de pomme de terre a donné naissance à une industrie de transformation, la féculerie, aux multiples débouchés dans les secteurs agro-alimentaire, cosmétique, pharmaceutique et industriel.
+
+Compte tenu de son importance économique, de nombreuses études scientifiques sur la pomme de terre et les espèces apparentées, notamment dans le domaine de la génétique, sont menées par des institutions publiques ou privées de différents pays, coordonnées au niveau mondial, entre autres, par le Centre international de la pomme de terre. ",
+			"qas":[
+				{
+					"question": "Peux-tu résumer ce texte ?",
+					"id": 4311111,
+					"answers": []
+				},
+			]
+		},
+
+		{
+			"metadata":{
+				"type":"writting",
+				"language":"fr",
+				"tags":["discourse"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Peux-tu m'écrire un discours pour convaincre les gens que je serai un bon président de la république ?",
+					"id": 511111,
+					"answers": []
+				},
+			]
+		},
+		{
+			"metadata":{
+				"type":"writting",
+				"language":"fr",
+				"tags":["discourse"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Je souhaite déclarer ma flemme à Jean-Michel, peux-tu me rédiger une bonne déclaration d'amour ?",
+					"id": 521111,
+					"answers": []
+				},
+			]
+		},
+
+		{
+			"metadata":{
+				"type":"smalltalk",
+				"language":"fr",
+				"tags":["neutral", "emotion", "personal"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Salut ! ça va ?",
+					"id": 7111111,
+					"answers": []
+				},
+				{
+					"question": "Quoi de neuf ?",
+					"id": 7111112,
+					"answers": []
+				},
+				{
+					"question": "tu penses à quoi ?",
+					"id": 7111113,
+					"answers": []
+				}
+			]
+		},
+		{
+			"metadata":{
+				"type":"smalltalk",
+				"language":"fr",
+				"tags":["angry", "emotion", "personal"]
+			}
+			"context":"",
+			"qas":[
+				{
+					"question": "Je te déteste !",
+					"id": 7211111,
+					"answers": []
+				},
+				{
+					"question": "Tu es méchant de dire ça !",
+					"id": 7211112,
+					"answers": []
+				},
+				{
+					"question": "Ne me parle pas comme ça !",
+					"id": 7211113,
+					"answers": []
+				}
+			]
+		}
+
+	]
+}
