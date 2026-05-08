@@ -9,6 +9,7 @@ converter.setOption("simpleLineBreaks", true); // Single line breaks return line
 converter.setOption("noHeaderId", true); // Otherwise, adds ids equal to the h1 title automatically
 
 // Default chat state as of now, but later will start at 0.
+let gmUsername = "GM prompter";
 let chatState = {
   user: {
     username: "Bonbon21",
@@ -50,7 +51,7 @@ let iconCss = `
 function getNextRoundPrompt(_) {
   // Div containers
   let promptTxt = "Some prompt from the GM...";
-  makeExchangeFromPrompt(promptTxt);
+  makeExchangeFromPrompt(promptTxt, gmUsername);
 }
 
 /**
@@ -64,6 +65,7 @@ function getNextRoundPrompt(_) {
  */
 function createMessageDiv(
   messageTxt,
+  username,
   messageDivClass,
   iconImgSrc,
   iconImgAlt,
@@ -71,35 +73,48 @@ function createMessageDiv(
 ) {
   // Div container for icon + username + text bubble
   let messageDiv = document.createElement("div");
-  // Add styles
   messageDiv.classList.add("messageContainer", messageDivClass);
+
   // Divs inside containers, aligned with flexbox
   let promptImg = document.createElement("img");
   promptImg.src = iconImgSrc;
   promptImg.alt = iconImgAlt;
   promptImg.style.cssText = iconCss;
   messageDiv.appendChild(promptImg);
+
+  // Container for message bubble + username in div
+  let messageUsernameAndBubble = document.createElement("div");
+  messageUsernameAndBubble.classList.add("messageUsernameAndBubble", messageBubbleClass);
+  // Insert username
+  let messageUsernameDiv = document.createElement("div");
+  messageUsernameDiv.classList.add("messageUsername");
+  messageUsernameDiv.innerText = username;
   // Insert message content
   let messageBubbleDiv = document.createElement("div");
-  messageBubbleDiv.classList.add("messageBubble", messageBubbleClass);
-  // let messageBubbleUsernameDiv = document.createElement("div");
-  // messageBubbleUsernameDiv.classList.add("messageBubbleUsername")
+  messageBubbleDiv.classList.add("messageBubble");
+
   // Convert the message markdown to HTML
   messageBubbleDiv.innerHTML = converter.makeHtml(messageTxt);
-  messageDiv.appendChild(messageBubbleDiv);
+
+  // Append to messageBubbleDiv
+  messageUsernameAndBubble.appendChild(messageUsernameDiv);
+  messageUsernameAndBubble.appendChild(messageBubbleDiv);
+  messageDiv.appendChild(messageUsernameAndBubble);
   return messageDiv;
 }
 
 /**
  * Create an exchange div and a prompr div inside it, after having received a prompt
  * @param {string} promptTxt the prompt message received through WebSockets
+ * @param {string} username the username of the prompter (probably GM)
  */
-function makeExchangeFromPrompt(promptTxt) {
+function makeExchangeFromPrompt(promptTxt, username) {
   // Div containers
   let exchangeDiv = document.createElement("div");
   exchangeDiv.classList.add("exchangeContainer");
   let promptDiv = createMessageDiv(
     promptTxt,
+    username,
     "promptContainer",
     "/rsc/img/icons/androidIcon.png",
     "androidIcon",
@@ -116,15 +131,16 @@ function submitInputForm(_) {
   let answerTxt = textInput.value;
   // After getting its value, clear text from textarea
   textInput.value = "";
-  addAnswer(answerTxt);
+  addAnswer(answerTxt, chatState.user.username);
 }
 
 /**
  * Find the last exchange div, and append the message to it.
  * If no answer has been sent yet, create a new div. Else, use the current one.
  * @param {string} answerTxt the answer inputted by the android
+ * @param {string} username the android username
  */
-function addAnswer(answerTxt) {
+function addAnswer(answerTxt, username) {
   // Find the last exchange div.
   let chatBoxChildren = chatBox.children;
   let exchangeDiv = chatBoxChildren[chatBoxChildren.length - 1];
@@ -138,6 +154,7 @@ function addAnswer(answerTxt) {
     console.debug("add new answer div");
     answerDiv = createMessageDiv(
       answerTxt,
+      username,
       "answerContainer",
       "/rsc/img/icons/user_icon_default.png",
       "userIcon",
@@ -162,8 +179,8 @@ function addAnswer(answerTxt) {
  */
 function loadChatStateInChatBox(chatState) {
   for (let exchange of chatState.messages) {
-    makeExchangeFromPrompt(exchange.prompt);
-    addAnswer(exchange.answer);
+    makeExchangeFromPrompt(exchange.prompt, gmUsername);
+    addAnswer(exchange.answer, chatState.user.username);
   }
 }
 
@@ -179,17 +196,26 @@ window.onload = function () {
 
   loadChatStateInChatBox(chatState);
 
-  // Event Listeners
+  // --- Event Listeners ---
 
   fontSizeInput.addEventListener("change", () => {
     fontSize = fontSizeInput.value;
-    let elements = document.getElementsByClassName("message");
+    let elements = document.getElementsByClassName("messageContainer");
     console.debug(elements);
     for (let element of elements) {
       element.style.fontSize = fontSize + "px";
     }
   });
 
+  // Event listeners for input
   sendBtn.addEventListener("click", submitInputForm);
+  document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.key == "Enter") {
+      alert("Ctrl+Enter key pressed");
+      sendBtn.click();
+    }
+  });
+
+  // TEMP: get next round with button
   getNextRoundPromptBtn.addEventListener("click", getNextRoundPrompt);
 };

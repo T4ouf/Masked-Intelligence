@@ -69,54 +69,32 @@ header h1 {
   padding: 0 0.5rem;
 }
 
-.messageBubble {
-  max-width: 70%;
-  padding: 0 .5em;
-  border-radius: .4em;
-}
-
-
-.messageBubble:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 0;
-  height: 0;
-  border: 0.375em solid transparent;
-  border-top: 0;
-  margin-top: -0.187em;
-}
-
-.promptContainer .messageBubble {
-  background-color: whitesmoke;
-  order: 2;
-}
-
-.answerContainer .messageBubble {
-  background-color: palegreen;
-  order: 1;
-}
-
-.promptContainer .messageBubble:after {
-  left: 0;
-  border-right-color: whitesmoke;
-  border-left: 0;
-  margin-left: -0.375em;
-}
-
-.answerContainer .messageBubble:after {
-  right: 0;
-  border-left-color: palegreen;
-  border-right: 0;
-  margin-right: -0.375em;
-}
-
 .promptContainer {
   justify-content: left;
 }
 
 .answerContainer {
   justify-content: right;
+}
+
+.messageUsernameAndBubble {
+  max-width: 70%;
+}
+
+.messageUsername {
+  color: red;
+}
+
+.answerContainer .messageUsername {
+  text-align: right;
+}
+
+.promptContainer .messageUsernameAndBubble {
+  order: 2;
+}
+
+.answerContainer .messageUsernameAndBubble {
+  order: 1;
 }
 
 
@@ -126,6 +104,24 @@ header h1 {
 
 .answerContainer img {
   order: 2
+}
+
+.messageBubble {
+  padding: 0 .5em;
+  border-radius: .4em;
+}
+
+.messageBubble * {
+  margin: 0 0;
+  padding: 2px 0;
+}
+
+.promptContainer .messageBubble {
+  background-color: whitesmoke;
+}
+
+.answerContainer .messageBubble {
+  background-color: palegreen;
 }
 
 /* Text input */
@@ -138,7 +134,7 @@ header h1 {
   min-height: 5rem;
   padding: 0.5rem;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row;
 }
 
 #textInput {
@@ -172,6 +168,7 @@ header h1 {
 
   .container .sidebar {
     order: 1;
+    display: none;
   }
 
   .container .content {
