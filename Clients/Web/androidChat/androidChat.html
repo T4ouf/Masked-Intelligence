@@ -14,7 +14,7 @@
     <div class="container">
       <aside class="sidebar">
         <nav>
-          <div class="sideOptionDiv">
+          <div class="fontSizeInputDiv">
             <label for="fontSizeInput">Font size</label>
             <input
               id="fontSizeInput"
@@ -24,10 +24,11 @@
               step="0.1"
             />
           </div>
+          <button type="button" id="getNextRoundPromptBtn">Get next round prompt</button>
         </nav>
       </aside>
       <main class="content">
-        <section id="chatBox"></section>
+        <div id="chatBox"></div>
         <div class="textInputDiv">
           <textarea
             id="textInput"

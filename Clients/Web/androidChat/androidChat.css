@@ -1,3 +1,7 @@
+:root {
+  --distance-between-messages: 1rem;
+}
+
 html,
 body {
   height: 100%;
@@ -28,15 +32,17 @@ header h1 {
   padding: 0.5rem;
 }
 
-.sideOptionDiv {
+.fontSizeOptionDiv {
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
 }
 
-.sideOptionDiv input[type='number'] {
+.fontSizeOptionDiv input[type='number'] {
   width: 4rem;
 }
+
+/* General content */
 
 .content {
   flex: 90%;
@@ -50,56 +56,85 @@ header h1 {
   overflow-y: scroll;
   flex: 1;
   min-height: 0;
-  background-color: whitesmoke;
+  background-color: wheat;
   border-radius: 1rem;
-  row-gap: 0.5rem;
-  padding: 0.5rem;
-}
-
-
-.exchangeContainer {
-  padding: 0.5rem;
 }
 
 .messageContainer {
   display: flex;
   flex-direction: row;
   column-gap: 1rem;
+  overflow-wrap: anywhere;
+  margin: var(--distance-between-messages) 0;
+  padding: 0 0.5rem;
 }
 
-.messageContainer p {
+.messageBubble {
   max-width: 70%;
+  padding: 0 .5em;
+  border-radius: .4em;
 }
 
+
+.messageBubble:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 0.375em solid transparent;
+  border-top: 0;
+  margin-top: -0.187em;
+}
+
+.promptContainer .messageBubble {
+  background-color: whitesmoke;
+  order: 2;
+}
+
+.answerContainer .messageBubble {
+  background-color: palegreen;
+  order: 1;
+}
+
+.promptContainer .messageBubble:after {
+  left: 0;
+  border-right-color: whitesmoke;
+  border-left: 0;
+  margin-left: -0.375em;
+}
+
+.answerContainer .messageBubble:after {
+  right: 0;
+  border-left-color: palegreen;
+  border-right: 0;
+  margin-right: -0.375em;
+}
 
 .promptContainer {
-  justify-content: right;
-}
-
-.promptContainer p {
-  order: 1
-}
-
-.promptContainer img {
-  order: 2
-}
-
-.answerContainer {
   justify-content: left;
 }
 
-.answerContainer p {
-  order: 2
+.answerContainer {
+  justify-content: right;
+}
+
+
+.promptContainer img {
+  order: 1
 }
 
 .answerContainer img {
-  order: 1
+  order: 2
 }
+
+/* Text input */
 
 .textInputDiv {
   /* prevents the form area from being squished */
   flex-shrink: 0;
   margin-top: auto;
+  margin-bottom: 3px;
   min-height: 5rem;
   padding: 0.5rem;
   display: flex;
@@ -123,6 +158,8 @@ header h1 {
   flex-grow: 1;
   border-radius: 0.5rem;
 }
+
+/* Media queries */
 
 
 /* the only operator is used to prevent older browsers from applying the styles without evaluating the media feature expressions but it has no effect in modern browsers. */
