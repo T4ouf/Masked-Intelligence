@@ -21,9 +21,7 @@ function messageHandler(event) {
   const type = message["type"];
   const content = message["content"];
   if (type == "PARSE_ERROR") {
-    setWaitingDialogText(
-      "Failed to parse a message: " + content["reason"]
-    );
+    setWaitingDialogText("Failed to parse a message: " + content["reason"]);
     ws.close();
     return;
   } else if (type == "ERROR") {
@@ -38,10 +36,12 @@ function messageHandler(event) {
   } else if (type == "JOIN_GAME") {
     const player_id = content["id"];
     connected_players.add(player_id);
-    ws.send(createMessage(player_id, "JOIN_GAME", {
-      // FIXME: use the real usernames
-      username: "test_subject#" + player_id,
-    }));
+    ws.send(
+      createMessage(player_id, "JOIN_GAME", {
+        // FIXME: use the real usernames
+        username: "test_subject#" + player_id,
+      })
+    );
 
     if (connected_players.size == max_players) {
       start_game_button.hidden = false;
@@ -52,12 +52,12 @@ function messageHandler(event) {
   }
   setWaitingDialogText(
     "The game id is " +
-    game_id +
-    "\r\nWaiting for players to join (" +
-    connected_players.size +
-    "/" +
-    max_players +
-    ")"
+      game_id +
+      "\r\nWaiting for players to join (" +
+      connected_players.size +
+      "/" +
+      max_players +
+      ")"
   );
 }
 
@@ -102,7 +102,7 @@ function cancelConnection() {
     for (const id of connected_players) {
       ws.send(createMessage(id, "GAME_CANCELLED", {}));
     }
-    ws.send("0" + game_id);
+    ws.send(createDisconnectMessage(game_id));
   }
   ws.close();
   connected = false;

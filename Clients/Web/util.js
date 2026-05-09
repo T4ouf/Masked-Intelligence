@@ -64,13 +64,13 @@ function addURIParameters(url, params) {
 }
 
 function decodeJSONMessage(message) {
-  if (message.length > 0 && message[0] != '{') {
+  if (message.length > 0 && message[0] != "{") {
     return {
       type: "ID",
       content: {
         id: parseInt(message),
-      }
-    }
+      },
+    };
   }
   try {
     return JSON.parse(message);
@@ -86,4 +86,8 @@ function decodeJSONMessage(message) {
 
 function createMessage(id, message_type, content) {
   return id + JSON.stringify({ type: message_type, content: content });
+}
+
+function createDisconnectMessage(id) {
+  return "0" + id;
 }

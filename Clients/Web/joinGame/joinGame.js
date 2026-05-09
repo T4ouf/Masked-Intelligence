@@ -19,9 +19,7 @@ function messageHandler(event) {
   const type = message["type"];
   const content = message["content"];
   if (type == "PARSE_ERROR") {
-    setWaitingDialogText(
-      "Failed to parse a message: " + content["reason"]
-    );
+    setWaitingDialogText("Failed to parse a message: " + content["reason"]);
     ws.close();
     return;
   } else if (type == "ERROR") {
@@ -40,7 +38,7 @@ function messageHandler(event) {
     );
   } else if (type == "GAME_CANCELLED") {
     setWaitingDialogText("The game has been cancelled");
-    ws.send("0" + player_id);
+    ws.send(createDisconnectMessage(player_id));
     connected = false;
   } else if (type == "START_GAME") {
     const parameters = {
@@ -86,7 +84,7 @@ function connectToServer(ip_addr, port, form) {
 function cancelConnection() {
   if (connected) {
     ws.send(createMessage(game_id, "LEAVE_GAME", { id: player_id }));
-    ws.send("0" + player_id);
+    ws.send(createDisconnectMessage(player_id));
   }
 
   ws.close();
