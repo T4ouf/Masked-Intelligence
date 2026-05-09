@@ -13,17 +13,10 @@ function returnToMenu() {
 }
 
 function connectToServer(ip_addr, port) {
-  const message = JSON.stringify({
-    message_type: "JOIN_STARTED_GAME",
-    content: {
-      game_id: game_id,
-      player_id: player_id,
-    },
-  });
-
   ws = new WebSocket("ws://" + ip_addr + ":" + port);
   ws.addEventListener("open", (event) => {
     connected = true;
+    const message = Number(-player_id).toString();
     console.log("connection open, sending ", message);
     ws.send(message);
   });
@@ -48,29 +41,33 @@ function messageHandler(event) {
   console.log("Received ", event.data);
 
   const message = decodeJSONMessage(event.data);
-  const type = message["message_type"];
+  const type = message["type"];
   const content = message["content"];
   if (type == "PARSE_ERROR") {
     setWaitingDialogText(
-      "Failed to parse a message from the server: " + content["reason"],
+      "Failed to parse a message: " + content["reason"],
       true
     );
     ws.close();
     return;
   } else if (type == "ERROR") {
-    setWaitingDialogText("An error occured on the server: " + content["reason"], true);
+    setWaitingDialogText("An error occured: " + content["reason"], true);
     ws.close();
     return;
   }
 
-  if (type == "JOIN_STARTED_GAME") {
-    // FIXME: handle this
+  if (type == "ID") {
+    ws.send(createMessage(game_id, "JOIN_STARTED_GAME", {
+      id: player_id,
+    }));
+  } else if (type == "JOIN_STARTED_GAME") {
     waiting_dialog.close();
     console.log(content);
+    // FIXME: handle game start
   }
 }
 
-window.onload = function () {
+window.onload = function() {
   waiting_dialog.showModal();
 
   const searchParams = new URLSearchParams(window.location.hash.substring(1));
