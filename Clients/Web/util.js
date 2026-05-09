@@ -64,14 +64,26 @@ function addURIParameters(url, params) {
 }
 
 function decodeJSONMessage(message) {
+  if (message.length > 0 && message[0] != '{') {
+    return {
+      type: "ID",
+      content: {
+        id: parseInt(message),
+      }
+    }
+  }
   try {
     return JSON.parse(message);
   } catch (e) {
-    return JSON.stringify({
-      message_type: "PARSE_ERROR",
+    return {
+      type: "PARSE_ERROR",
       content: {
-        reason: message.message,
+        reason: message,
       },
-    });
+    };
   }
+}
+
+function createMessage(id, message_type, content) {
+  return id + JSON.stringify({ type: message_type, content: content });
 }
