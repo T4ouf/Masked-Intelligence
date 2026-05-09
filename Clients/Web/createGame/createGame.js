@@ -35,6 +35,16 @@ function messageHandler(event) {
     connected = true;
   } else if (type == "JOIN_GAME") {
     const player_id = content["id"];
+
+    if (connected_players.size == max_players) {
+      ws.send(
+        createMessage(player_id, "ERROR", {
+          reason: "The game is already full",
+        })
+      );
+      return;
+    }
+
     connected_players.add(player_id);
     ws.send(
       createMessage(player_id, "JOIN_GAME", {
